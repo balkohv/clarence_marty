@@ -1,4 +1,6 @@
 #navbar-container{
+
+    z-index: 1;
     position: fixed; /*test*/
     margin-top: 5vh;
     display: flex;

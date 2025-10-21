@@ -1,23 +1,22 @@
 import Item from './Item.jsx';
+import eiko_bg from '../../assets/projects/eiko_bg.png';
 
 const Tab = (category) => {
 
     const project = { //TODO: remplacer par un fetch json
-        "titre - test": {
-            "preview": {
-                "title": "test - a changer",
-                "subtitle": "test - a changer",
-                "description": "test - a changer",
-                "background": "/path/to/image.jpg",
-                "video": "/path/to/video.mp4"
-            },
-            "slides": [
-                {
-                    "type": "image", //image, video, carousel, text 
-                    "background": "/path/to/slide1.jpg"
-                }
-            ]
-        }
+        "preview": {
+            "title": "test - a changer",
+            "subtitle": "test - a changer",
+            "description": "test - a changer",
+            "background": eiko_bg,
+            "video": "/videos/EKOI.mp4"
+        },
+        "slides": [
+            {
+                "type": "image", //image, video, carousel, text 
+                "background": "/path/to/slide1.jpg"
+            }
+        ]
     };
 
     const projects = [project, project, project, project, project, project]; //TODO: remplacer par un fetch json
