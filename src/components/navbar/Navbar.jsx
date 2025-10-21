@@ -11,14 +11,14 @@ const Navbar = ({ page }) => {
         <a
           id="about"
           className={`tab ${page === "about" ? "active" : ""}`}
-          href="#about"
+          href="/"
         >
           A propos
         </a>
         <a
           id="services"
           className={`tab ${page === "services" ? "active" : ""}`}
-          href="#services"
+          href="/services"
         >
           Services
         </a>
