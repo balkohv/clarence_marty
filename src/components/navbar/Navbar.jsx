@@ -29,21 +29,21 @@ const Navbar = ({ page }) => {
       <div id="tabs-container">
         <a
           id="about"
-          className={`tab ${page === "about" ? "active" : ""}`}
+          className={`tab ${page === "about" ? "active-tab" : ""}`}
           href="/"
         >
           A propos
         </a>
         <a
           id="services"
-          className={`tab ${page === "services" ? "active" : ""}`}
+          className={`tab ${page === "services" ? "active-tab" : ""}`}
           href="/services"
         >
           Services
         </a>
         <a
           id="projects"
-          className={`tab ${page === "projects" ? "active" : ""}`}
+          className={`tab ${page === "projects" ? "active-tab" : ""}`}
           href="/projects"
         >
           Mes réalisations

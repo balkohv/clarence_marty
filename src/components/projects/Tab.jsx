@@ -1,38 +1,39 @@
 import Item from './Item.jsx';
 import eiko_bg from '../../assets/projects/eiko_bg.png';
 
-const Tab = (category) => {
+const Tab = ({ category, position, isActive }) => {
+  const project = {
+    preview: {
+      title: "Ekiö",
+      subtitle: "2024 MTB Range",
+      description:
+        "Entre deux manches de coupe du monde, j'ai réalisé une publicité pour la gamme de vêtements VTT gravity 2024 de la marque Ekoï, à destination de leurs réseaux sociaux.",
+      background: eiko_bg,
+      video: "/videos/EKOI.mp4",
+    },
+    slides: [
+      {
+        type: "image",
+        background: "/path/to/slide1.jpg",
+      },
+    ],
+  };
 
-    const project = { //TODO: remplacer par un fetch json
-        "preview": {
-            "title": "test - a changer",
-            "subtitle": "test - a changer",
-            "description": "test - a changer",
-            "background": eiko_bg,
-            "video": "/videos/EKOI.mp4"
-        },
-        "slides": [
-            {
-                "type": "image", //image, video, carousel, text 
-                "background": "/path/to/slide1.jpg"
-            }
-        ]
-    };
+  const projects = [project, project, project, project, project, project];
 
-    const projects = [project, project, project, project, project, project]; //TODO: remplacer par un fetch json
-
-    return (
-        <div className="tab-container">
-            <div className="tab-info">
-                <h2>test - a changer</h2>
-                <h3>test - a changer</h3>
-            </div>
-            <div className="items-container">
-                {projects.map((project, index) => (
-                    <Item key={index} project={project} />
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <div className={`tab-container ${position} ${isActive ? "active" : ""}`} id={category}>
+      <div className="tab-info">
+        <h2>Mes projets dans l’univers du {category}</h2>
+        <h3>Découvrez ma passion</h3>
+      </div>
+      <div className="items-container">
+        {projects.map((project, index) => (
+          <Item key={index} project={project} />
+        ))}
+      </div>
+    </div>
+  );
 };
+
 export default Tab;
