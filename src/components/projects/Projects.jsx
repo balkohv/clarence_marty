@@ -9,10 +9,10 @@ const Projects = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const [prevCategory, setPrevCategory] = useState(0);
 
-  const categories_click = (index) => {
-    if (index === activeCategory) return;
+  const categories_click = (tab) => {
+    if (tab === activeCategory) return;
     setPrevCategory(activeCategory);
-    setActiveCategory(index);
+    setActiveCategory(tab);
   };
 
   return (
@@ -20,11 +20,11 @@ const Projects = () => {
       <Navbar page="projects" />
 
       <div id="categories">
-        {categories.map((category, index) => (
+        {categories.map((category, tab) => (
           <div
-            key={index}
-            className={`category-card ${activeCategory === index ? "category-active" : ""}`}
-            onClick={() => categories_click(index)}
+            key={tab}
+            className={`category-card ${activeCategory === tab ? "category-active" : ""}`}
+            onClick={() => categories_click(tab)}
           >
             <h2>{category}</h2>
           </div>

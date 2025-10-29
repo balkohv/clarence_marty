@@ -1,5 +1,14 @@
 import Item from './Item.jsx';
 import eiko_bg from '../../assets/projects/eiko_bg.png';
+import React from 'react';
+
+const type_slide = {
+  IMAGE: "image",
+  CARROUSSEL: "carrousel",
+  VIDEO: "video",
+};
+
+var prev_slide = null;
 
 const Tab = ({ category, position, isActive }) => {
   const project = {
@@ -13,11 +22,40 @@ const Tab = ({ category, position, isActive }) => {
     },
     slides: [
       {
-        type: "image",
-        background: "/path/to/slide1.jpg",
+        type: type_slide.VIDEO,
+        background: "/path/to/slide2.jpg",
+        video: "/videos/EKOI.mp4"
       },
+      {
+        type: type_slide.CARROUSSEL,
+        background: "/projects/ekoi_2.png",
+        images: [
+          "/projects/ekoi_21.png",
+          "/projects/ekoi_22.png",
+          "/projects/ekoi_23.png",
+        ]
+      },
+      {
+        type: type_slide.IMAGE,
+        background: "/projects/ekoi_3.png",
+        text: "J'ai réalisé le lancement du team GasGas Factory racing sur les réseaux sociaux.\n\nAu programme :\n- réalisation d'une vidéo Youtube présentant les 3 pilotes\n- réalisation d'un reel instagram pour chaque pilote\n- photos pour une utilisation sur site web et réseaux sociaux"
+      }
     ],
   };
+
+  
+  const [active_slide, setActive_slide] = React.useState(null);
+
+  const handleSlideChange = ( slide) => {
+      console.log(slide,prev_slide);
+      if(slide == prev_slide){
+        setActive_slide(null);
+        prev_slide=null;
+      }else{
+        setActive_slide(slide);
+        prev_slide = slide;
+      }
+  }
 
   const projects = [project, project, project, project, project, project];
 
@@ -29,7 +67,7 @@ const Tab = ({ category, position, isActive }) => {
       </div>
       <div className="items-container">
         {projects.map((project, index) => (
-          <Item key={index} project={project} />
+          <Item key={index} project={project} isSlideActive={active_slide==index} onClick={() => handleSlideChange(index)}/>
         ))}
       </div>
     </div>
