@@ -1,13 +1,24 @@
 import { Col, Row } from 'react-bootstrap';
-import React from 'react';
+import { useRef } from "react";
 const Item = ({project, isSlideActive, onClick}) => {
+
+    const projectRef = useRef(null);
+
+    const scrollToproject = () => {
+        if(!isSlideActive && 1==0){// FIXME: au scroll sur le première item items-container remonte avec. 
+            const el = projectRef.current;
+            setTimeout(() => {
+                projectRef.current?.scrollIntoView({ behavior: "smooth" });
+            }, 1000);
+        }
+    };
 
 
     const slides_render = (slide, index) => {
         switch (slide.type) {
             case "image":
                 return (
-                    <Row key={index} xs="12" className='slide-item image-slide left'>
+                    <Row key={index} xs="12" className={`slide-item image-slide ${slide.textLoc}`}>
                         <img src={slide.background} alt={`Slide ${index + 1}`} />
                         <p>{slide.text}</p>
                     </Row>
@@ -41,8 +52,8 @@ const Item = ({project, isSlideActive, onClick}) => {
     const slides = project.slides.map((slide, index) => slides_render(slide, index));
 
     return (
-        <div className="item-card" onClick={onClick}>
-            <div className="preview-item">
+        <div className="item-card">
+            <div className="preview-item" onClick={() => { onClick();scrollToproject(); }}>
                 <img src={project.preview.background} alt="Project Preview" />
                 <Col xs="6" className='video-container'>
                     <video autoPlay muted loop playsInline preload="none" >
@@ -55,7 +66,7 @@ const Item = ({project, isSlideActive, onClick}) => {
                     <p>{project.preview.description}</p>
                 </Col>
             </div>
-            <Row className={`slides-container ${isSlideActive ? 'active-slide' : ''}`}>
+            <Row className={`slides-container ${isSlideActive ? 'active-slide' : ''}`} ref={projectRef}>
                 {slides}
             </Row>
         </div>

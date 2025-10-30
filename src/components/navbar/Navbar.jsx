@@ -1,7 +1,7 @@
 import './Navbar.css';
 import { useEffect, useState } from 'react';
 
-const Navbar = ({ page }) => {
+const Navbar = ({ page,show_modal }) => {
 
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -52,11 +52,13 @@ const Navbar = ({ page }) => {
           id="contact"
           className={`tab ${page === "contact" ? "active" : ""}`}
           href="#contact"
+          onClick={show_modal}
         >
           Contact
         </a>
       </div>
     </div>
+
   );
 };
 

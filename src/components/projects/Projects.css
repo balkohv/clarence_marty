@@ -154,7 +154,7 @@
   transition: transform 0.5s ease;
 }
 
-.preview-item .video-container video:hover{
+.preview-item:hover .video-container video{
   transform: scale(1.1);
   transition: transform 0.5s ease;
 }
@@ -170,6 +170,7 @@
 
 .preview-text p{
   background-color: #3938388e;
+  max-width: 30vw;
   padding: 10px;
   border-radius: 10px;
 }
@@ -221,7 +222,7 @@
   justify-content: flex-end;
 }
 
-.image-slide right p{
+.image-slide.right p{
   margin-right:5vw;
 }
 
@@ -232,16 +233,17 @@
   border-radius: 10px;
   font-size: x-large;
   color: #FFF;
+  max-width: 30%;
 }
 
 .slides-container{
-  display: none;
-  /* max-height: 0px;
-  transition: all 0.5s ease; */
+  /* display: none; */
+  max-height: 0px;
+  transition: all 0.5s ease;
 }
 
 .slides-container.active-slide{
-  display: block;
-  /* max-height: 10000000000px;
-  transition: all 1s ease; */
+  /* display: block; */
+  max-height: 10000000000px;
+  transition: all 1s ease;
 }

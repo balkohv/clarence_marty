@@ -23,7 +23,6 @@ const Tab = ({ category, position, isActive }) => {
     slides: [
       {
         type: type_slide.VIDEO,
-        background: "/path/to/slide2.jpg",
         video: "/videos/EKOI.mp4"
       },
       {
@@ -38,7 +37,31 @@ const Tab = ({ category, position, isActive }) => {
       {
         type: type_slide.IMAGE,
         background: "/projects/ekoi_3.png",
-        text: "J'ai réalisé le lancement du team GasGas Factory racing sur les réseaux sociaux.\n\nAu programme :\n- réalisation d'une vidéo Youtube présentant les 3 pilotes\n- réalisation d'un reel instagram pour chaque pilote\n- photos pour une utilisation sur site web et réseaux sociaux"
+        text: "J'ai réalisé le lancement du team GasGas Factory racing sur les réseaux sociaux.\n\nAu programme :\n- réalisation d'une vidéo Youtube présentant les 3 pilotes\n- réalisation d'un reel instagram pour chaque pilote\n- photos pour une utilisation sur site web et réseaux sociaux",
+        textLoc: 'right'
+      }
+    ],
+  };
+
+  const project2 = {
+    preview: {
+      title: "HUSQVARNA BICYCLES",
+      subtitle: "JOSH CARLSON \"ONE AND DONE\"",
+      description:
+        "Entre deux manches de coupe du monde, j'ai réalisé une publicité pour la gamme de vêtements VTT gravity 2024 de la marque Ekoï, à destination de leurs réseaux sociaux.",
+      background: "/projects/husqvarna_bg.png",
+      video: "/videos/husqvarna.mp4",
+    },
+    slides: [
+      {
+        type: type_slide.VIDEO,
+        video: "/videos/husqvarna.mp4"
+      },
+      {
+        type: type_slide.IMAGE,
+        background: "/projects/husqvarna_bg2.png",
+        text: "Lors des championnats du monde d'enduro & e-enduro 2024 à Val di Fassa, j'ai suivi Josh Carlson, un des pionniers de la discipline, afin de réaliser un mini-documentaire sur sa dernière course en tant que professionnel.",
+        textLoc: 'right'
       }
     ],
   };
@@ -47,7 +70,6 @@ const Tab = ({ category, position, isActive }) => {
   const [active_slide, setActive_slide] = React.useState(null);
 
   const handleSlideChange = ( slide) => {
-      console.log(slide,prev_slide);
       if(slide == prev_slide){
         setActive_slide(null);
         prev_slide=null;
@@ -57,7 +79,7 @@ const Tab = ({ category, position, isActive }) => {
       }
   }
 
-  const projects = [project, project, project, project, project, project];
+  const projects = [project2, project];
 
   return (
     <div className={`tab-container ${position} ${isActive ? "active" : ""}`} id={category}>

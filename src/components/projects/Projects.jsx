@@ -17,7 +17,6 @@ const Projects = () => {
 
   return (
     <>
-      <Navbar page="projects" />
 
       <div id="categories">
         {categories.map((category, tab) => (
