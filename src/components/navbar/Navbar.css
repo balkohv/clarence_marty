@@ -1,6 +1,6 @@
 #navbar-container{
 
-    z-index: 1;
+    z-index: 6;
     position: fixed; /*test*/
     margin-top: 5vh;
     display: flex;
@@ -9,8 +9,7 @@
     border-radius: 15px;
     justify-content: space-between;
 
-    background-color: black;
-    color: white;
+    color: var(--text);
     backdrop-filter: blur(10px);
     background-color: rgba(0, 0, 0, 0.5);
 
@@ -66,20 +65,20 @@
     font-size: 3.5vh;
 }
 
+
 .tab{
     cursor: pointer;
-    color: #E6E5E5;
+    color: var(--text);
     transition: all 0.8s ease;
 }
 
 .tab:hover{
-    color: grey;
+    color: var(--textHover);
     font-weight: 20px;
     transition: all 0.5s ease;
 }
 
 .active-tab{
-    color: #fff;
     font-weight: bold;
     text-decoration: underline;
     text-underline-offset: 4px;
@@ -87,15 +86,41 @@
 
 #contact{
     padding:3px 15px;
-    background-color: #FFF;
-    color:#1F1F1F;
+    background-color: var(--background);
+    color:var(--text);
     border-radius: 30px;
     transition: all 0.5s ease;
 }
 
 #contact:hover{
     font-size: 3.8vh;
-    background-color: #1F1F1F;
-    color:#FFF;
+    background-color: var(--backgroundInveterd);
+    color:var(--textInverted);
     transition: all 0.5s ease;
 }
+
+#tabs-container svg{
+    height:20px;
+    width: 20px;
+    display: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#tabs-container svg:hover{
+    scale: calc(1.5);
+    transition: all 0.3s;
+}
+
+#sun{
+    fill: #FFF;
+}
+
+#moon{
+    fill: #1F1F1F;
+}
+
+svg.active{
+    display: block !important;
+}
+

@@ -1,4 +1,26 @@
+
+body.light{
+  --text:#2f2f2f;
+  --textHover:#8c8c8c;
+  --textInverted:#FFF;
+  --background:rgb(226, 226, 226);
+  --backgroundInveterd:#2f2f2f;
+  --tabsBackground:#252525;
+}
+
+body.dark{
+  --background:#242424;
+  --border: grey;
+  --text:#FFF;
+  --textHover:#dbdbdb;
+  --textInverted:#2f2f2f;
+  --tabsBackground:#f0f8ff;
+  --backgroundInveterd:#FFF;
+}
+
 body {
+  background-color: var(--background);
+  color: var(--text);
   margin: 0;
   display: flex;
   justify-content: center;
@@ -44,6 +66,7 @@ body {
 }
 
 .contact-header{
+  color:#FFF;
   background-color: #1d1d1d;
   height: 10%;
   padding: 5vh;

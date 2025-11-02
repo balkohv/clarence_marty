@@ -4,7 +4,7 @@ import About from './components/about-me/about-me.jsx';
 import Projects from './components/projects/Projects.jsx';
 import { Col,Row } from "react-bootstrap";
 import Footer from "./components/footer/Footer"
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Navbar from './components/navbar/Navbar';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
   const show_modal = () => {
     setModalIsActive(!modalIsActive);
   };
-
+  
   return (
     <>
     <Navbar page="projects" show_modal={show_modal}></Navbar>

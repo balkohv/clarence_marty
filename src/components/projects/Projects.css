@@ -33,10 +33,10 @@
 }
 
 .category-active{
-  color: rgb(54, 54, 54);
-  border: 2px solid #fff;
-  box-shadow: 0 0 10px #fff;
-  background-color: aliceblue;
+  color: var(--textInverted);
+  border: 2px solid var(--tabsBackground);
+  box-shadow: 0 0 10px var(--tabsBackground);
+  background-color: var(--tabsBackground);
   transform: scale(1.05);
   transition: all 1s ease;
 }

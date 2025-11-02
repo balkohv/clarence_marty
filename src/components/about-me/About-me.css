@@ -15,7 +15,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1;
 }
 
 .video-title {
@@ -38,6 +37,7 @@
 }
 
 .down-arrow {
+    color: #fff;
     height: 10vh;
     flex: end;
     fill: #fff !important; position: absolute;

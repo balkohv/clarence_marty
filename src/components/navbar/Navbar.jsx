@@ -1,7 +1,31 @@
 import './Navbar.css';
 import { useEffect, useState } from 'react';
+import Moon from '../../assets/SVG/Moon.svg?react';
+import Sun from '../../assets/SVG/Sun.svg?react';
 
-const Navbar = ({ page,show_modal }) => {
+
+const Navbar = ({ page,show_modal}) => {
+
+  const [theme, setTheme] = useState(() => {
+
+    const saved = localStorage.getItem("theme");
+    if (saved) return saved;
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
+
+  
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", theme === "dark");
+    document.body.classList.toggle("light", theme === "light");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -50,12 +74,13 @@ const Navbar = ({ page,show_modal }) => {
         </a>
         <a
           id="contact"
-          className={`tab ${page === "contact" ? "active" : ""}`}
-          href="#contact"
+          className={`tab ${page === "contact" ? "active-tab" : ""}`}
           onClick={show_modal}
         >
           Contact
         </a>
+        <Moon id="moon" className={`${theme==="light"?"active":""}`} onClick={toggleTheme} aria-label="Toggle theme" />
+        <Sun id="sun" className={`${theme==="dark"?"active":""}`} onClick={toggleTheme} aria-label="Toggle theme" />
       </div>
     </div>
 

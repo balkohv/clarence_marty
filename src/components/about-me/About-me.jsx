@@ -48,7 +48,6 @@ const AboutMe = ({isServices}) => {
             <source src="/videos/video_about_me_bg.mp4" type="video/mp4" />
             </video>
 
-            <Navbar page="about" />
 
             <div className="video-title">
             <h1>CLARENCE MARTY</h1>
@@ -118,7 +117,7 @@ const AboutMe = ({isServices}) => {
                 <p>Une Envie, une idée</p>
                 <p>Contactez moi pour en discuter et donner vie a votre projet !</p>
                 <p><img src={mail} alt="mail logo" /><a href="mailto:martyc1812@gmail.com" className="contact-button">martyc1812@gmail.com</a></p>
-                <p><img src={telephone} alt="mail logo" />0780455192</p>
+                <p><img src={telephone} alt="mail logo" />07 80 45 51 92</p>
                 <p><img src={instagram} alt="mail logo" />clarence_marty</p>
             </Col>
             <Col xs={8} className="contact-img">
