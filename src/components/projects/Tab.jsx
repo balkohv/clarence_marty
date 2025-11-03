@@ -65,7 +65,6 @@ const Tab = ({ category, position, isActive }) => {
       }
     ],
   };
-
   
   const [active_slide, setActive_slide] = React.useState(null);
 
@@ -79,6 +78,10 @@ const Tab = ({ category, position, isActive }) => {
       }
   }
 
+  const close_item=()=>{
+    setActive_slide(null);
+  }
+
   const projects = [project2, project];
 
   return (
@@ -89,7 +92,7 @@ const Tab = ({ category, position, isActive }) => {
       </div>
       <div className="items-container">
         {projects.map((project, index) => (
-          <Item key={index} project={project} isSlideActive={active_slide==index} onClick={() => handleSlideChange(index)}/>
+          <Item key={index} project={project} project_index={index} isSlideActive={active_slide} onClick={() => handleSlideChange(index)} close_item={() => close_item()}/>
         ))}
       </div>
     </div>

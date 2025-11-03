@@ -1,8 +1,9 @@
 import { Col, Row } from 'react-bootstrap';
 import { useRef } from "react";
-const Item = ({project, isSlideActive, onClick}) => {
+const Item = ({project,project_index, isSlideActive, onClick,close_item}) => {
 
     const projectRef = useRef(null);
+
 
     const scrollToproject = () => {
         if(!isSlideActive && 1==0){// FIXME: au scroll sur le première item items-container remonte avec. 
@@ -50,9 +51,11 @@ const Item = ({project, isSlideActive, onClick}) => {
     };
 
     const slides = project.slides.map((slide, index) => slides_render(slide, index));
-
+    console.log(isSlideActive, project_index);
     return (
-        <div className="item-card">
+        <div className={`item-card ${isSlideActive==project_index?"":isSlideActive===null ? '' : 'disabled'}`}>
+            <div className='filter' onClick={() => { close_item() }}>
+            </div>
             <div className="preview-item" onClick={() => { onClick();scrollToproject(); }}>
                 <img src={project.preview.background} alt="Project Preview" />
                 <Col xs="6" className='video-container'>
@@ -66,7 +69,7 @@ const Item = ({project, isSlideActive, onClick}) => {
                     <p>{project.preview.description}</p>
                 </Col>
             </div>
-            <Row className={`slides-container ${isSlideActive ? 'active-slide' : ''}`} ref={projectRef}>
+            <Row className={`slides-container ${isSlideActive==project_index ? 'active-slide' : ''}`} ref={projectRef}>
                 {slides}
             </Row>
         </div>

@@ -114,7 +114,7 @@ const AboutMe = ({isServices}) => {
             <Col xs={4} className="contact-text">
                 <h1>Contact</h1>
 
-                <p>Une Envie, une idée</p>
+                <p>Une envie, une idée</p>
                 <p>Contactez moi pour en discuter et donner vie a votre projet !</p>
                 <p><img src={mail} alt="mail logo" /><a href="mailto:martyc1812@gmail.com" className="contact-button">martyc1812@gmail.com</a></p>
                 <p><img src={telephone} alt="mail logo" />07 80 45 51 92</p>

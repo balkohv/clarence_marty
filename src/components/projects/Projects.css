@@ -107,6 +107,10 @@
   cursor: pointer;
 }
 
+.item-card{
+  position: relative;
+}
+
 .item-card:nth-child(even) .preview-item .video-container{
   right: 3%;
   transition: transform 0.5s ease;
@@ -239,11 +243,16 @@
 .slides-container{
   /* display: none; */
   max-height: 0px;
-  transition: all 0.5s ease;
 }
 
 .slides-container.active-slide{
   /* display: block; */
   max-height: 10000000000px;
   transition: all 1s ease;
+}
+
+.item-card.disabled .filter{
+  display: flex;
+  height: 100%;
+  position: absolute;
 }
