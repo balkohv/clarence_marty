@@ -73,7 +73,7 @@ preview: {
     video: "/videos/husqvarna.mp4",
 },
 stats:{
-    views: 1245,
+    views: 3695,
     archived: true
 },
 slides: [
@@ -103,8 +103,8 @@ return(
     <>
         <div className='admin_container'>
             <Row className='stats'>
-                <Col className='graph'>
                 <h1> VISITES</h1>
+                <Col className='graph'>
                     <ResponsiveContainer>
                         <LineChart data={visitsData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" />
@@ -117,8 +117,8 @@ return(
                 </Col>
             </Row>
             <Row className='projects'>
+                <h1>MES PROJETS</h1>
                 <Col className='projects_list'>
-                    <h1>MES PROJETS</h1>
                     <table>
                         <thead>
 
