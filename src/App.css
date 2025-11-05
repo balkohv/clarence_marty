@@ -6,6 +6,8 @@ body.light{
   --background:rgb(226, 226, 226);
   --backgroundInveterd:#2f2f2f;
   --tabsBackground:#252525;
+  --lighter-background:#f5f5f5;
+  --lighter-background-hover:#ffffff;
 }
 
 body.dark{
@@ -16,6 +18,8 @@ body.dark{
   --textInverted:#2f2f2f;
   --tabsBackground:#f0f8ff;
   --backgroundInveterd:#FFF;
+  --lighter-background:#2f2f2f;
+  --lighter-background-hover:#3a3a3a;
 }
 
 body {
@@ -25,6 +29,7 @@ body {
   display: flex;
   justify-content: center;
   font-family: "Poppins", sans-serif;
+  width: -webkit-fill-available;
 }
 
 #root {
@@ -52,6 +57,14 @@ body {
   transition: opacity 0.3s ease;
 }
 
+.filter textarea{
+  font-family: poppins, sans-serif;
+}
+
+.filter input{
+  border: none;
+}
+
 .filter.active{
   display: flex;
 }
@@ -66,6 +79,10 @@ body {
 }
 
 .contact-header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   color:#FFF;
   background-color: #1d1d1d;
   height: 10%;

@@ -6,6 +6,7 @@ import { Col,Row } from "react-bootstrap";
 import Footer from "./components/footer/Footer"
 import React, { useEffect, useState } from "react";
 import Navbar from './components/navbar/Navbar';
+import Dashboard from './components/admin/dashboard.jsx';
 
 function App() {
 
@@ -23,14 +24,14 @@ function App() {
           { <Route path="/" element={<About isServices={0}/>} /> }
           { <Route path="/services" element={<About isServices={1}/>} /> }
           { <Route path="/projects" element={<Projects />} /> }
-          {/* <Route path="/cv" element={<Contact />} /> */}
+          { <Route path="/admin" element={<Dashboard />} />}
         </Routes>
       </BrowserRouter>
       <Col className={`filter ${modalIsActive?"active":""}`} onClick={show_modal}>
           <Col className="contact-modal"  onClick={(e) => e.stopPropagation()}>
               <Row className="contact-header">
-                  <h4>Décrivez moi le projet de vos rêves</h4>
-                  <h5>Je m'occupe du reste</h5>
+                  <h4>Une envie, une idée ?</h4>
+                  <h4>Contactez moi pour en discuter et donner vie à votre projet !</h4>
               </Row>
               <Row className="contact-content">
                 <div>
