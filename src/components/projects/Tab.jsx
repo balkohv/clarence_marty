@@ -92,7 +92,7 @@ const Tab = ({ category, position, isActive }) => {
       </div>
       <div className="items-container">
         {projects.map((project, index) => (
-          <Item key={index} project={project} project_index={index} isSlideActive={active_slide} onClick={() => handleSlideChange(index)} close_item={() => close_item()}/>
+          <Item key={index} project={project} project_index={index} isSlideActive={active_slide} onClick={() => handleSlideChange(index)} close_item={() => close_item()} isAdmion={false}/>
         ))}
       </div>
     </div>

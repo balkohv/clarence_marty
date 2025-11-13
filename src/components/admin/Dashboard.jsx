@@ -2,6 +2,7 @@ import './Admin.css';
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import eiko_bg from '../../assets/projects/eiko_bg.png';
+import Item from '../projects/Item-edit.jsx';
 import {
   LineChart,
   Line,
@@ -94,9 +95,16 @@ slides: [
 
 const projects = [project, project2];
 
+
+
 const Dashboard = () => {
 
 
+const [item, setItem] = React.useState(projects[0]);
+
+const preview_project = (project) => {
+    setItem(project);
+}
 
 
 return(
@@ -118,26 +126,29 @@ return(
             </Row>
             <Row className='projects'>
                 <h1>MES PROJETS</h1>
-                <Col className='projects_list'>
-                    <table>
-                        <thead>
+                <Row className='projects_container'>
+                    <Col className='projects_list'>
+                        <table>
+                            <thead>
 
-                        </thead>
-                        <tbody>
-                            {projects.map((project,index)=>(
-                                <tr>
-                                    <td>{index}</td>
-                                    <td>{project.preview.title}</td>
-                                    <td>{project.preview.subtitle}</td>
-                                    <td>{project.stats.views} views</td>
-                                    <td><span className={`${project.stats.archived?"archived":"online"}`}>{project.stats.archived?"Archivé":"En ligne"}</span></td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </Col>
-                <Col className='preview'>
-                </Col>
+                            </thead>
+                            <tbody>
+                                {projects.map((project,index)=>(
+                                    <tr key={index} onClick={()=>preview_project(project)}>
+                                        <td>{index}</td>
+                                        <td>{project.preview.title}</td>
+                                        <td>{project.preview.subtitle}</td>
+                                        <td>{project.stats.views} views</td>
+                                        <td><span className={`${project.stats.archived?"archived":"online"}`}>{project.stats.archived?"Archivé":"En ligne"}</span></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </Col>
+                    <Col className='preview' lg={5} md={12}>
+                        <Item project={item} project_index={0} isSlideActive={0} onClick={null} close_item={null} isAdmin={true}/>
+                    </Col>
+                </Row>
             </Row>
         </div>
     </>
