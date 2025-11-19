@@ -1,5 +1,5 @@
 import { useSortable } from "@dnd-kit/sortable";
-import {CSS} from "@dnd-kit/utilities";
+import { CSS } from "@dnd-kit/utilities";
 
 const type_slide = {
   IMAGE: "image",
@@ -7,61 +7,79 @@ const type_slide = {
   VIDEO: "video",
   PREVIEW: "preview"
 };
-const SlideEdit = ({ slide,index }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({
-    id: slide.id
-  });
+
+const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: slide.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
-    cursor: "grab",
+    transition
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}key={slide.id}  className='slides-edit'>
-        <h2>{slide.type}</h2>
-        <div className='slide-editor'>
-            {slide.type === type_slide.IMAGE && (
-                <>
-                    <input type="text" defaultValue={slide.text} />
-                    <input defaultValue={slide.textLoc} />
-                    <input type="file" id={`slide_image_${index}_${slide.id}`} hidden/>
-                    <img src={slide.background} alt="" />
-                </>
-            )}
-            {slide.type === type_slide.VIDEO && (
-                <>
-                    <input type='file' id={`slide_video_${index}_${slide.id}`} hidden/>
-                    <video autoPlay muted loop playsInline preload="none" >
-                        <source src={slide.video} type="video/mp4" />
-                    </video>
-                </>
-            )}
-            {slide.type === type_slide.CARROUSSEL && (
-                <>
-                    <div className='carrousel-editor'>
-                        <input type="file" id={`slide_carrousel_bg_${index}_${slide.id}`} hidden/>
-                        <img src={slide.background} alt="" />
-                        <div className='carrousel-images-editor'>
-                            {slide.images.map((image,img_index)=>(
-                                <div key={img_index} className='carrousel-image-editor'>
-                                    <input type="file" id={`slide_carrousel_image_${index}_${slide.id}_${img_index}`} hidden/>
-                                    <img src={image} alt="" />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </>
-            )}
-        </div>
+    <div ref={setNodeRef} style={style} className="slides-edit">
+
+      <h2>{slide.type}</h2>
+
+      <div className="slide-editor">
+      <div className="drag-handle" {...attributes} {...listeners} aria-label="drag handle" title="Déplacer">
+        ☰
+      </div>
+      <div className="delete-slide" onClick={() => deleteSlide(projectId, slide.id)} title="Supprimer la diapositive">
+        x
+      </div>
+        <select
+          value={slide.type}
+          onChange={e => editSlide(projectId, slide.id, { type: e.target.value })}
+        >
+          <option value={type_slide.IMAGE}>Image</option>
+          <option value={type_slide.VIDEO}>Vidéo</option>
+          <option value={type_slide.CARROUSSEL}>Carrousel</option>
+        </select>
+
+        {slide.type === type_slide.IMAGE && (
+          <>
+            <input
+              type="text"
+              value={slide.text || ""}
+              placeholder="Texte"
+              onChange={e => editSlide(projectId, slide.id, { text: e.target.value })}
+            />
+
+            <input
+              type="text"
+              value={slide.textLoc || ""}
+              placeholder="Position du texte"
+              onChange={e => editSlide(projectId, slide.id, { textLoc: e.target.value })}
+            />
+
+            <img src={slide.background || ""} alt="" />
+          </>
+        )}
+        {slide.type === type_slide.VIDEO && (
+          <>
+            <video autoPlay muted loop playsInline preload="none">
+              <source src={slide.video} type="video/mp4" />
+            </video>
+          </>
+        )}
+        {slide.type === type_slide.CARROUSSEL && (
+          <>
+            <img src={slide.background || ""} alt="" />
+
+            <div className="carrousel-images-editor">
+              {Array.isArray(slide.images) && slide.images.map((image, idx) => (
+                <div key={idx} className="carrousel-image-editor">
+                  <img src={image} alt="" />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
+
 export default SlideEdit;

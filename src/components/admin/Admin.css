@@ -344,3 +344,8 @@ td .online{
 .slides-edit{
   width: 100%;
 }
+.drag-handle{
+  cursor: grab;
+  font-size: 1.5rem;
+  padding: 0 10px;
+}
