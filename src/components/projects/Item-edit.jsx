@@ -53,7 +53,6 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
     };
 
     const slides = project.slides.map((slide, index) => slides_render(slide, index));
-    console.log(isSlideActive, project_index);
     return (
         <div className='item-edit'>
             <div className={`item-card ${isSlideActive==project_index?"":isSlideActive===null ? '' : 'disabled'}`}>

@@ -26,7 +26,11 @@ table{
 
 }
 
-.projects_list{
+.project:hover{
+    scale: 1.04;
+    transition: all ease 0.5s;
+    cursor: pointer;
+    background-color: var(--lighter-background-hover);
 
 }
 
@@ -46,13 +50,6 @@ tr{
     transition: all ease 0.5s;
     justify-content: space-between;
     font-size: large;
-}
-
-tr:hover{
-    scale: 1.04;
-    transition: all ease 0.5s;
-    cursor: pointer;
-    background-color: var(--lighter-background-hover);
 }
 
 td{
@@ -115,13 +112,12 @@ td .online{
 .projects_list {
   flex: 1;
   min-width: 400px;
-  max-height: 80vh;
 }
 
 .preview {
   flex: 0 0 40%;
   max-width:30%;
-  height: 80vh;
+  height: fit-content;
   overflow-y: auto;
   border-radius: 15px;
   background-color: var(--background);
@@ -273,8 +269,16 @@ td .online{
   transition: transform 0.3s ease;
 }
 
+.editor{
+  display: none;
+}
+
+.editor.active{
+  display: block;
+}
+
 .item-edit .carrousel::-webkit-scrollbar {
-  display: none; /* optionnel pour un rendu clean */
+  display: none;
 }
 
 .item-edit .preview-text{
@@ -284,4 +288,59 @@ td .online{
 .item-edit .image-slide p{
   top:20%;
   margin:0 !important;
+}
+
+.slide-editor-container{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.slide-editor{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap:20px;
+  justify-content: center;
+  background-color: var(--lighter-background);
+  padding: 2%;
+  margin:10px 0px;
+  border-radius: 10px;
+}
+
+.slide-editor input, textarea, video, img{
+  border-radius: 5px;
+  padding: 10px;
+  width: 300px;
+  border: none;
+}
+.carrousel-editor{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.carrousel-editor img{
+  height: 100%;
+  width: auto;
+}
+
+.carrousel-image-editor{
+  display: flex;
+  flex-wrap: wrap;
+  width: 20%;
+}
+
+.carrousel-images-editor {
+  display: flex;
+  justify-content: space-around;
+}
+
+.carrousel-images-editor img{
+  width: 100%;
+}
+
+.slides-edit{
+  width: 100%;
 }

@@ -26,7 +26,6 @@ const AboutMe = ({isServices}) => {
     
     useEffect(() => {
         if (isServices) {
-        console.log("scroll to services");
         scrollToServices();
         }
     }, [isServices]); 
