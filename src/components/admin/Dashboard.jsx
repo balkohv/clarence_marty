@@ -4,6 +4,7 @@ import { Col, Row } from 'react-bootstrap';
 import eiko_bg from '../../assets/projects/eiko_bg.png';
 import Item from '../projects/Item-edit.jsx';
 import SlideEdit from './slide-edit.jsx';
+import $ from 'jquery';
 import {
   LineChart,
   Line,
@@ -32,6 +33,8 @@ const type_slide = {
   PREVIEW: "preview"
 };
 
+const api_url = "http://192.168.1.59/clarence/";
+
 const Dashboard = () => {
   const [projects, setProjectsList] = React.useState([]);
   const [item, setItem] = React.useState(null);
@@ -39,99 +42,67 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     // Initial mock data
-    const project = { 
-        id:"p1", 
-        preview: 
-        { 
-            title: 'Ekiö', 
-            subtitle: '2024 MTB Range', 
-            description: 'Entre deux manches de coupe du monde, j\'ai réalisé une publicité pour la gamme de vêtements VTT gravity 2024 de la marque Ekoï, à destination de leurs réseaux sociaux.', 
-            background: eiko_bg, 
-            video: '/videos/EKOI.mp4', 
-        }, 
-        stats:
-        { 
-            views: 1245, 
-            archived: false 
-        }, 
-        slides:[ 
-            { 
-                id: "p1-0", 
-                type: type_slide.VIDEO, 
-                video: '/videos/EKOI.mp4',
-                background: '', 
-                text: '', 
-                textLoc: '', 
-                images: [] 
-            }, 
-            { 
-                id: "p1-1", 
-                type: type_slide.CARROUSSEL, 
-                video: '', 
-                background: '/projects/ekoi_2.png', 
-                text: '', 
-                textLoc: '', 
-                images: 
-                [ 
-                    '/projects/ekoi_21.png', 
-                    '/projects/ekoi_22.png', 
-                    '/projects/ekoi_23.png', 
-                ] 
-            }, 
-            { 
-                id: "p1-2", 
-                type: type_slide.IMAGE, 
-                video: '', 
-                background: '/projects/ekoi_3.png', 
-                text: 'J\'ai réalisé le lancement du team GasGas Factory racing sur les réseaux sociaux.\n\nAu programme :\n- réalisation d\'une vidéo Youtube présentant les 3 pilotes\n- réalisation d\'un reel instagram pour chaque pilote\n- photos pour une utilisation sur site web et réseaux sociaux', 
-                textLoc: 'right', 
-                images: [] 
-            } 
-        ], 
-    }; 
-    
-    const project2 = 
-    { 
-        id:"p2", 
-        preview: 
-        { 
-            title: 'HUSQVARNA BICYCLES', 
-            subtitle: 'JOSH CARLSON \"ONE AND DONE\"', 
-            description: 'Entre deux manches de coupe du monde, j\'ai réalisé une publicité pour la gamme de vêtements VTT gravity 2024 de la marque Ekoï, à destination de leurs réseaux sociaux.', 
-            background: '/projects/husqvarna_bg.png', 
-            video: '/videos/husqvarna.mp4', 
-        }, 
-        stats:
-        { 
-            views: 3695, 
-            archived: true 
-        }, 
-        slides: 
-        [ 
-            { 
-                id: "p2-0", 
-                type: type_slide.VIDEO,
-                video: '/videos/husqvarna.mp4',
-                background: '',
-                text: '', 
-                textLoc: '', 
-                images: [] 
-            }, 
-            { 
-                id: "p2-1", 
-                type: type_slide.IMAGE, 
-                video: '', 
-                background: '/projects/husqvarna_bg2.png', 
-                text: 'Lors des championnats du monde d\'enduro & e-enduro 2024 à Val di Fassa, j\'ai suivi Josh Carlson, un des pionniers de la discipline, afin de réaliser un mini-documentaire sur sa dernière course en tant que professionnel.', 
-                textLoc: 'right', 
-                images: [] 
-            } 
-        ], 
-    };
-
-    setProjectsList([project, project2]);
-    setItem(project);
+    if (projects.length > 0) return;
+    $.ajax({
+      url: ''+api_url+'project_api.php',
+      method: 'GET',
+      success: function(data) {
+          for (const raw_project of data.data) {
+            console.log(raw_project);
+            let project={
+              id: raw_project.project_id,
+              preview:
+              {
+                  title: raw_project.title,
+                  subtitle: raw_project.subTitle,
+                  description: raw_project.description,
+                  background: raw_project.background,
+                  video: raw_project.video,
+              },
+              stats:
+              {
+                  views: raw_project.views,
+                  archived: raw_project.archived === "1" ? true : false,
+              },
+              slides: raw_project.slides,
+            }
+            console.log(project);
+            setProjectsList(prev => [...prev, project]);
+          setItem(project);
+          }
+        
+      },
+      error: function(err) {
+        console.error('Error fetching projects:', err);
+      }
+    });
   }, []);
+
+  const save_changes = (project_id) => {
+    let project=projects.find(p => p.id === project_id);
+    let slides = JSON.parse(JSON.stringify(project.slides));
+    $.ajax({
+      url: ''+api_url+'project_api.php',
+      method: 'PATCH',
+      data: JSON.stringify({ 
+        id: project_id,
+        title: project.preview.title,
+        subTitle: project.preview.subtitle,
+        description: project.preview.description,
+        background: project.preview.background,
+        video: project.preview.video,
+        slides: slides
+
+      }),
+      contentType: 'application/json',
+      success: function(data) {
+          console.log('Project saved successfully:', data);
+      },
+      error: function(err) {
+        console.error('Error saving project:', err);
+      }
+    });
+  };
 
   const preview_project = (project) => {
     setEditor(prev => prev === project.id ? null : project.id);
@@ -273,7 +244,7 @@ const Dashboard = () => {
 
                         <div className='preview-editor slide-editor'>
                             <input type="text" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
-                            <input type="text" value={item.preview.subtitle || ""} />
+                            <input type="text" value={item.preview.subtitle} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
                             <textarea value={project.preview.description} onChange={e => editSlide(project.id, "preview", { description: e.target.value })}/>
                             <video autoPlay muted loop playsInline preload="none">
                                 <source src={item.preview.video} type="video/mp4" />
@@ -306,13 +277,16 @@ const Dashboard = () => {
 
                           <SortableContext items={item.slides.map(s => s.id)} strategy={verticalListSortingStrategy}>
                             {item.slides.map(slide => (
-                              <SlideEdit key={slide.id} slide={item.slides.find(s => s.id === slide.id) || slide} projectId={project.id} editSlide={editSlide} deleteSlide={deleteSlide} />
+                              <SlideEdit key={project.id+""+slide.id} slide={item.slides.find(s => s.id === slide.id) || slide} projectId={project.id} editSlide={editSlide} deleteSlide={deleteSlide} />
                             ))}
                           </SortableContext>
                         </DndContext>
 
                         <div className='new-slide'>
-                          <input type="button" value="+ Ajouter une slide" onClick={newSlide(project.id)}/>
+                          <input type="button" value="+ Ajouter une slide" onClick={() =>newSlide(project.id)}/>
+                        </div>
+                        <div className='save-changes'>
+                          <input type="button" value="Sauvegarder les modifications" onClick={() =>save_changes(project.id)}/>
                         </div>
                       </div>
                     )}

@@ -42,16 +42,16 @@ const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
           <>
             <input
               type="text"
-              value={slide.text || ""}
+              value={slide.text}
               placeholder="Texte"
               onChange={e => editSlide(projectId, slide.id, { text: e.target.value })}
             />
 
             <input
               type="text"
-              value={slide.textLoc || ""}
+              value={slide.text_loc}
               placeholder="Position du texte"
-              onChange={e => editSlide(projectId, slide.id, { textLoc: e.target.value })}
+              onChange={e => editSlide(projectId, slide.id, { text_loc: e.target.value })}
             />
 
             <img src={slide.background || ""} alt="" />
