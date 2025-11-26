@@ -308,7 +308,7 @@ td .online{
   border-radius: 10px;
 }
 
-.slide-editor input, textarea, img{
+.slide-editor input,.slide-editor textarea,.slide-editor img{
   border-radius: 5px;
   padding: 10px;
   width: 300px;
