@@ -20,8 +20,8 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
         switch (slide.type) {
             case "image":
                 return (
-                    <Row key={index} xs="12" className={`slide-item image-slide ${slide.textLoc}`}>
-                        <img src={slide.background} alt={`Slide ${index + 1}`} />
+                    <Row key={index} xs="12" className={`slide-item image-slide ${slide.text_loc}`}>
+                        <img src={slide.background!=""?slide.background:null} alt={`Slide ${index + 1}`} />
                         <p>{slide.text}</p>
                     </Row>
                 );
@@ -29,10 +29,10 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
             case "carrousel":
                 return (
                     <Row key={index} xs="12" className='slide-item carrousel-slide' >
-                        <img src={slide.background} alt={`Carrousel Background`} className="carrousel-background" />
+                        <img src={slide.background!=""?slide.background:null} alt={`Carrousel Background`} className="carrousel-background" />
                         <div className="carrousel">
                             {slide.images.map((image, imgIndex) => (
-                                <img key={imgIndex} src={image} alt={`Carrousel Image ${imgIndex + 1}`} />
+                                <img key={imgIndex} src={image!=""?image:null} alt={`Carrousel Image ${imgIndex + 1}`} />
                             ))}
                         </div>
                     </Row>
@@ -42,7 +42,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                 return (
                     <Row key={index} xs="12" className='slide-item video-slide'>
                         <video controls autoPlay muted loop playsInline>
-                            <source src={slide.video} type="video/mp4" />
+                            <source src={slide.video!=""?slide.video:null} type="video/mp4" />
                         </video>
                     </Row>
                 );

@@ -21,7 +21,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
             case "image":
                 return (
                     <Row key={index} xs="12" className={`slide-item image-slide ${slide.textLoc}`}>
-                        <img src={slide.background} alt={`Slide ${index + 1}`} />
+                        <img src={slide.background!=""?slide.background:null}  alt={`Slide ${index + 1}`} />
                         <p>{slide.text}</p>
                     </Row>
                 );
@@ -29,7 +29,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
             case "carrousel":
                 return (
                     <Row key={index} xs="12" className='slide-item carrousel-slide' >
-                        <img src={slide.background} alt={`Carrousel Background`} className="carrousel-background" />
+                        <img src={slide.background!=""?slide.background:null}  alt={`Carrousel Background`} className="carrousel-background" />
                         <div className="carrousel">
                             {slide.images.map((image, imgIndex) => (
                                 <img key={imgIndex} src={image} alt={`Carrousel Image ${imgIndex + 1}`} />

@@ -37,7 +37,7 @@ const api_url = "http://192.168.1.59/clarence/";
 
 const Dashboard = () => {
   const [projects, setProjectsList] = React.useState([]);
-  const [item, setItem] = React.useState(null);
+  const [selProject, setSelProject] = React.useState(null);
   const [editor, setEditor] = React.useState(null);
 
   React.useEffect(() => {
@@ -48,7 +48,6 @@ const Dashboard = () => {
       method: 'GET',
       success: function(data) {
           for (const raw_project of data.data) {
-            console.log(raw_project);
             let project={
               id: raw_project.project_id,
               preview:
@@ -66,9 +65,8 @@ const Dashboard = () => {
               },
               slides: raw_project.slides,
             }
-            console.log(project);
             setProjectsList(prev => [...prev, project]);
-          setItem(project);
+          setSelProject(project);
           }
         
       },
@@ -106,7 +104,7 @@ const Dashboard = () => {
 
   const preview_project = (project) => {
     setEditor(prev => prev === project.id ? null : project.id);
-    setItem(project);
+    setSelProject(project);
   };
 
     const editSlide = (projectId, slideId, updatedFields) => {
@@ -123,12 +121,12 @@ const Dashboard = () => {
         return {
             ...project,
             slides: project.slides.map(slide =>
-            slide.id === slideId ? { ...slide, ...updatedFields } : slide
+            slide.slide_id === slideId ? { ...slide, ...updatedFields } : slide
             )
         };
         })
     );
-    setItem(prev => {
+    setSelProject(prev => {
         if (prev.id !== projectId) return prev;
 
         if (slideId === "preview") {
@@ -138,7 +136,7 @@ const Dashboard = () => {
         return {
         ...prev,
         slides: prev.slides.map(slide =>
-            slide.id === slideId ? { ...slide, ...updatedFields } : slide
+            slide.slide_id === slideId ? { ...slide, ...updatedFields } : slide
         )
         };
     });
@@ -149,7 +147,7 @@ const Dashboard = () => {
         prevProjects.map(project => {
         if (project.id !== projectId) return project;
         const newSlide = {
-            id: `${projectId}-${project.slides.length}`,
+            slide_id: `${projectId}-${project.slides.length}`,
             type: type_slide.IMAGE,
             video: '',
             background: '',
@@ -163,7 +161,7 @@ const Dashboard = () => {
         };
         })
     );
-    setItem(prev => {
+    setSelProject(prev => {
         if (prev.id !== projectId) return prev;
         const newSlide = {
         id: `${projectId}-${prev.slides.length}`,
@@ -182,24 +180,34 @@ const Dashboard = () => {
     };
 
     const deleteSlide = (projectId, slideId) => {
-    setProjectsList(prevProjects =>
-        prevProjects.map(project => {
-        if (project.id !== projectId) return project;
+      setProjectsList(prevProjects =>
+          prevProjects.map(project => {
+          if (project.id !== projectId) return project;
 
-        return {
-            ...project,
-            slides: project.slides.filter(slide => slide.id !== slideId)
-        };
-        })
-    );
-    setItem(prev => {
-        if (prev.id !== projectId) return prev;
+          return {
+              ...project,
+              slides: project.slides.filter(slide => slide.slide_id !== slideId)
+          };
+          })
+      );
+      setSelProject(prev => {
+          if (prev.id !== projectId) return prev;
 
-        return {   
-        ...prev,
-        slides: prev.slides.filter(slide => slide.id !== slideId)
-        };
-    });
+          return {   
+          ...prev,
+          slides: prev.slides.filter(slide => slide.slide_id !== slideId)
+          };
+      });
+      $.ajax({
+        url: ''+api_url+'slide_api.php',
+        method: 'DELETE',
+        data: JSON.stringify({ 
+          id: slideId,
+        }),
+        error: function(err) {
+          console.error('Error fetching projects:', err);
+        }
+      });
     };
 
 
@@ -238,18 +246,18 @@ const Dashboard = () => {
                   </tr>
 
                   <tr className={`editor ${editor === project.id ? "active" : ""}`}>
-                    {editor === project.id && item && (
+                    {editor === project.id && (
                       <div className='slide-editor-container'>
                         <h2>Preview</h2>
 
                         <div className='preview-editor slide-editor'>
                             <input type="text" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
-                            <input type="text" value={item.preview.subtitle} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
+                            <input type="text" value={project.preview.subtitle} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
                             <textarea value={project.preview.description} onChange={e => editSlide(project.id, "preview", { description: e.target.value })}/>
                             <video autoPlay muted loop playsInline preload="none">
-                                <source src={item.preview.video} type="video/mp4" />
+                                <source src={project.preview.video} type="video/mp4" />
                             </video>
-                            <img src={item.preview.background} alt="" />
+                            <img src={project.preview.background} alt="" />
                         </div>
 
                         <DndContext
@@ -259,31 +267,35 @@ const Dashboard = () => {
 
                             setProjectsList(prev => {
                               const updated = prev.map(p => {
-                                if (p.id !== item.id) return p;
-
-                                const oldIndex = p.slides.findIndex(s => s.id === active.id);
-                                const newIndex = p.slides.findIndex(s => s.id === over.id);
-
+                                if (p.id !== project.id) return p;
+                                
+                                const oldIndex = p.slides.findIndex(s => s.slide_id === active.id);
+                                const newIndex = p.slides.findIndex(s => s.slide_id === over.id);
+                                const movedSlides = arrayMove(p.slides, oldIndex, newIndex);
+                                const reIndexedSlides = movedSlides.map((slide, index) => ({
+                                  ...slide,
+                                  index_slide: index
+                                }));
                                 return {
                                   ...p,
-                                  slides: arrayMove(p.slides, oldIndex, newIndex)
+                                  slides: reIndexedSlides
                                 };
                               });
 
-                              setItem(updated.find(p => p.id === item.id));
+                              setSelProject(updated.find(p => p.id === project.id));
                               return updated;
                             });
                           }}>
 
-                          <SortableContext items={item.slides.map(s => s.id)} strategy={verticalListSortingStrategy}>
-                            {item.slides.map(slide => (
-                              <SlideEdit key={project.id+""+slide.id} slide={item.slides.find(s => s.id === slide.id) || slide} projectId={project.id} editSlide={editSlide} deleteSlide={deleteSlide} />
+                          <SortableContext items={project.slides.map(s => s.slide_id)} strategy={verticalListSortingStrategy}>
+                            {project.slides.map(slide => (
+                              <SlideEdit key={project.id+""+slide.slide_id} slide={slide} projectId={project.id} editSlide={editSlide} deleteSlide={deleteSlide} />
                             ))}
                           </SortableContext>
                         </DndContext>
 
                         <div className='new-slide'>
-                          <input type="button" value="+ Ajouter une slide" onClick={() =>newSlide(project.id)}/>
+                          <input type="button" value="+ Ajouter une slide" onClick={newSlide(project.id)}/>
                         </div>
                         <div className='save-changes'>
                           <input type="button" value="Sauvegarder les modifications" onClick={() =>save_changes(project.id)}/>
@@ -297,7 +309,7 @@ const Dashboard = () => {
           </Col>
 
           <Col className='preview' lg={5} md={12}>
-            {item && <Item project={item} isAdmin={true} />}
+            {selProject && <Item project={selProject} isAdmin={true} />}
           </Col>
         </Row>
       </Row>

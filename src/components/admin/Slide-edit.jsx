@@ -10,7 +10,7 @@ const type_slide = {
 
 const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: slide.id });
+    useSortable({ id: slide.slide_id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -26,12 +26,12 @@ const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
       <div className="drag-handle" {...attributes} {...listeners} aria-label="drag handle" title="Déplacer">
         ☰
       </div>
-      <div className="delete-slide" onClick={() => deleteSlide(projectId, slide.id)} title="Supprimer la diapositive">
+      <div className="delete-slide" onClick={() => deleteSlide(projectId, slide.slide_id)} title="Supprimer la diapositive">
         x
       </div>
         <select
           value={slide.type}
-          onChange={e => editSlide(projectId, slide.id, { type: e.target.value })}
+          onChange={e => editSlide(projectId, slide.slide_id, { type: e.target.value })}
         >
           <option value={type_slide.IMAGE}>Image</option>
           <option value={type_slide.VIDEO}>Vidéo</option>
@@ -44,17 +44,17 @@ const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
               type="text"
               value={slide.text}
               placeholder="Texte"
-              onChange={e => editSlide(projectId, slide.id, { text: e.target.value })}
+              onChange={e => editSlide(projectId, slide.slide_id, { text: e.target.value })}
             />
 
             <input
               type="text"
               value={slide.text_loc}
               placeholder="Position du texte"
-              onChange={e => editSlide(projectId, slide.id, { text_loc: e.target.value })}
+              onChange={e => editSlide(projectId, slide.slide_id, { text_loc: e.target.value })}
             />
 
-            <img src={slide.background || ""} alt="" />
+            <img src={slide.background!=""?slide.background:null} alt="" />
           </>
         )}
         {slide.type === type_slide.VIDEO && (
