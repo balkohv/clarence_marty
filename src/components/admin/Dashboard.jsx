@@ -210,6 +210,27 @@ const Dashboard = () => {
       });
     };
 
+    const add_project= () =>{
+      const new_project = {
+        id: "",
+        preview:
+        {
+            title: "",
+            subtitle: "",
+            description: "",
+            background: "",
+            video: "",
+        },
+        stats:
+        {
+            views: 0,
+            archived: 0,
+        },
+        slides: [],
+      };
+      setProjectsList(prev => [...prev, new_project]);
+      console.log(projects);
+    }
 
 
 
@@ -234,6 +255,7 @@ const Dashboard = () => {
         <h1>MES PROJETS</h1>
         <Row className='projects_container'>
           <Col className='projects_list'>
+            <button onClick={()=>add_project()}>add project</button>
             <table><tbody>
               {projects.map((project, index) => (
                 <React.Fragment key={project.id}>
