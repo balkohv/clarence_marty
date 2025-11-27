@@ -8,6 +8,9 @@ const type_slide = {
   PREVIEW: "preview"
 };
 
+
+const api_url = "http://192.168.1.59/clarence/";
+
 const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: slide.slide_id });
@@ -51,27 +54,44 @@ const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
               type="text"
               value={slide.text_loc}
               placeholder="Position du texte"
-              onChange={e => editSlide(projectId, slide.slide_id, { text_loc: e.target.value })}
+              onChange={(e) => editSlide(projectId, slide.slide_id, { text_loc: e.target.value })}
             />
-
-            <img src={slide.background!=""?slide.background:null} alt="" />
+            <input type="file" onChange={e => {
+              const file = e.target.files[0];
+              if (file) {
+                  editSlide(projectId, slide.slide_id, { background: file });
+              }
+            }} />
+            <img src={api_url+"/uploads/"+(slide.background!=""?slide.background:null)} alt="" />
           </>
         )}
         {slide.type === type_slide.VIDEO && (
           <>
-            <video autoPlay muted loop playsInline preload="none">
-              <source src={slide.video} type="video/mp4" />
+            <input type="file" onChange={e => {
+              const file = e.target.files[0];
+              if (file) {
+                  editSlide(projectId, slide.slide_id, { video: file });
+              }
+            }} />
+            <video autoPlay muted loop playsInline controls preload="none">
+              <source src={api_url+"/uploads/"+slide.video} type="video/mp4" />
             </video>
           </>
         )}
         {slide.type === type_slide.CARROUSSEL && (
           <>
-            <img src={slide.background || ""} alt="" />
+            <img src={api_url+"/uploads/"+(slide.background || "")} alt="" />
+            <input type="file" onChange={e => {
+              const file = e.target.files[0];
+              if (file) {
+                  editSlide(projectId, slide.slide_id, { background: file });
+              }
+            }} />
 
             <div className="carrousel-images-editor">
               {Array.isArray(slide.images) && slide.images.map((image, idx) => (
                 <div key={idx} className="carrousel-image-editor">
-                  <img src={image} alt="" />
+                  <img src={api_url+"/uploads/"+image} alt="" />
                 </div>
               ))}
             </div>

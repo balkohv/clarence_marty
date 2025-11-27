@@ -79,10 +79,38 @@ const Dashboard = () => {
   const save_changes = (project_id) => {
     let project=projects.find(p => p.id === project_id);
     let slides = JSON.parse(JSON.stringify(project.slides));
+    const formData = new FormData();
+    formData.append("id",project_id);
+    formData.append("title",project.preview.title);
+    formData.append("subTitle",project.preview.subtitle);
+    formData.append("description",project.preview.description);
+    formData.append("background",project.preview.background);
+    formData.append("video",project.preview.video);
+    project.slides.forEach((slide, index)=> {
+      formData.append("background-"+slide.slide_id,slide.background);
+      formData.append("index_slide-"+slide.slide_id,slide.index_slide);
+      formData.append("project_id-"+slide.slide_id,slide.project_id);
+      formData.append("text-"+slide.slide_id,slide.text);
+      formData.append("text_loc-"+slide.slide_id,slide.text_loc);
+      formData.append("type-"+slide.slide_id,slide.type);
+      formData.append("video-"+slide.slide_id,slide.video);
+      formData.append("archived-"+slide.slide_id,slide.archived);
+      formData.append("slide_id-"+slide.slide_id,slide.slide_id);
+      slide.images.forEach((image,index)=>{
+        formData.append("image_id-"+image.image_id,image.image_id);
+        formData.append("slide_id-"+image.image_id,slide.slide_id);
+        formData.append("image-"+image.image_id,image.image);
+        formData.append("archived-"+image.image_id,image.archived);
+      })
+    });
+    console.log(formData);
     $.ajax({
       url: ''+api_url+'project_api.php',
-      method: 'PATCH',
-      data: JSON.stringify({ 
+      method: 'POST',
+      data: formData,
+      processData: false, 
+      contentType: false,
+      /* data: JSON.stringify({ 
         id: project_id,
         title: project.preview.title,
         subTitle: project.preview.subtitle,
@@ -92,7 +120,7 @@ const Dashboard = () => {
         slides: slides
 
       }),
-      contentType: 'application/json',
+      contentType: 'application/json', */
       success: function(data) {
           console.log('Project saved successfully:', data);
       },
@@ -108,6 +136,7 @@ const Dashboard = () => {
   };
 
     const editSlide = (projectId, slideId, updatedFields) => {
+      console.log(updatedFields);
     setProjectsList(prevProjects =>
         prevProjects.map(project => {
         if (project.id !== projectId) return project;
@@ -149,6 +178,7 @@ const Dashboard = () => {
         const newSlide = {
             slide_id: `${projectId}-${project.slides.length}`,
             type: type_slide.IMAGE,
+            index_slide: project.slides.length+1,
             video: '',
             background: '',
             text: '',
@@ -276,10 +306,22 @@ const Dashboard = () => {
                             <input type="text" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
                             <input type="text" value={project.preview.subtitle} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
                             <textarea value={project.preview.description} onChange={e => editSlide(project.id, "preview", { description: e.target.value })}/>
-                            <video autoPlay muted loop playsInline preload="none">
-                                <source src={project.preview.video} type="video/mp4" />
+                            <input type="file" onChange={e => {
+                              const file = e.target.files[0];
+                              if (file) {
+                                  editSlide(project.id, "preview", { video: file });
+                              }
+                            }} />
+                            <video controls autoPlay muted loop playsInline preload="none">
+                                <source src={api_url+"/uploads/"+project.preview.video} type="video/mp4" />
                             </video>
-                            <img src={project.preview.background} alt="" />
+                            <img src={api_url+"/uploads/"+project.preview.background} alt="" />
+                            <input type="file" onChange={e => {
+                              const file = e.target.files[0];
+                              if (file) {
+                                  editSlide(project.id, "preview", { background: file });
+                              }
+                            }} />
                         </div>
 
                         <DndContext
