@@ -301,7 +301,7 @@ const Dashboard = () => {
                     {editor === project.id && (
                       <div className='slide-editor-container'>
                         <h2>Preview</h2>
-
+                        <div className='slides-edit'>
                         <div className='preview-editor slide-editor'>
                             <input type="text" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
                             <input type="text" value={project.preview.subtitle} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
@@ -322,6 +322,8 @@ const Dashboard = () => {
                                   editSlide(project.id, "preview", { background: file });
                               }
                             }} />
+                        </div>
+
                         </div>
 
                         <DndContext

@@ -22,16 +22,15 @@ const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
 
   return (
     <div ref={setNodeRef} style={style} className="slides-edit">
-
-      <h2>{slide.type}</h2>
-
       <div className="slide-editor">
-      <div className="drag-handle" {...attributes} {...listeners} aria-label="drag handle" title="Déplacer">
-        ☰
-      </div>
-      <div className="delete-slide" onClick={() => deleteSlide(projectId, slide.slide_id)} title="Supprimer la diapositive">
-        x
-      </div>
+        <div className="logo">
+          <div className="drag-handle" {...attributes} {...listeners} aria-label="drag handle" title="Déplacer">
+            ☰
+          </div>
+          <div className="delete-slide" onClick={() => deleteSlide(projectId, slide.slide_id)} title="Supprimer la diapositive">
+            x
+          </div>
+        </div>
         <select
           value={slide.type}
           onChange={e => editSlide(projectId, slide.slide_id, { type: e.target.value })}
@@ -73,7 +72,7 @@ const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
                   editSlide(projectId, slide.slide_id, { video: file });
               }
             }} />
-            <video autoPlay muted loop playsInline controls preload="none">
+            <video autoPlay muted loop playsInline cotrols preload="none">
               <source src={api_url+"/uploads/"+slide.video} type="video/mp4" />
             </video>
           </>

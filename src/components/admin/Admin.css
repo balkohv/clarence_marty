@@ -348,6 +348,7 @@ td .online{
 }
 
 .slides-edit{
+  display: flex;
   width: 100%;
 }
 .drag-handle{
@@ -358,4 +359,21 @@ td .online{
 
 .editor video,.editor img{
   max-width:30%;
+}
+
+.slide-editor .logo{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.slides-edit input ,
+.slides-edit textarea,
+.slides-edit select{
+  height: 30px;
+
+}
+
+.slides-edit select{
+  padding:10px ;
 }
