@@ -25,7 +25,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
             case "image":
                 return (
                     <Row key={index} xs="12" className={`slide-item image-slide ${slide.text_loc}`}>
-                        <img src={api_url+"/uploads/"+(slide.background!=""?slide.background:null)}  alt={`Slide ${index + 1}`} />
+                        <img src={slide.background_preview?slide.background_preview : api_url + "/uploads/" + slide.background}  alt={`Slide ${index + 1}`} />
                         <p>{slide.text}</p>
                     </Row>
                 );
@@ -45,7 +45,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
             case "video":
                 return (
                     <Row key={index} xs="12" className='slide-item video-slide'>
-                        <video controls autoPlay muted loop playsInline>
+                        <video key={slide.video_preview || slide.video}  controls autoPlay muted loop playsInline>
                             <source src={api_url+"/uploads/"+slide.video} type="video/mp4" />
                         </video>
                     </Row>
@@ -63,10 +63,10 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                 <div className='filter' onClick={() => { close_item() }}>
                 </div>
                 <div className="preview-item" onClick={() => { onClick();scrollToproject(); }}>
-                    <img src={api_url+"/uploads/"+project.preview.background} alt="Project Preview" />
+                    <img src={project.preview.background_preview?project.preview.background_preview : api_url + "/uploads/" + project.preview.background} alt="Project Preview" />
                     <Col xs="6" className='video-container'>
-                        <video autoPlay muted loop playsInline preload="none" >
-                            <source src={api_url+"/uploads/"+project.preview.video} type="video/mp4" />
+                        <video key={project.preview.video_preview || project.preview.video} autoPlay muted loop playsInline preload="none" >
+                            <source src={project.preview.video_preview?project.preview.video_preview : api_url + "/uploads/" + project.preview.video} type="video/mp4" />
                         </video>
                     </Col>
                     <Col xs="6" className="preview-text">

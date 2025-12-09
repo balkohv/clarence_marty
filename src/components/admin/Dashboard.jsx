@@ -85,42 +85,35 @@ const Dashboard = () => {
     formData.append("subTitle",project.preview.subtitle);
     formData.append("description",project.preview.description);
     formData.append("background",project.preview.background);
+    formData.append("background_file",project.preview.background_file);
     formData.append("video",project.preview.video);
+    formData.append("video_file",project.preview.video_file);
     project.slides.forEach((slide, index)=> {
       formData.append("background-"+slide.slide_id,slide.background);
+      formData.append("background_file-"+slide.slide_id,slide.background_file);
       formData.append("index_slide-"+slide.slide_id,slide.index_slide);
       formData.append("project_id-"+slide.slide_id,slide.project_id);
       formData.append("text-"+slide.slide_id,slide.text);
       formData.append("text_loc-"+slide.slide_id,slide.text_loc);
       formData.append("type-"+slide.slide_id,slide.type);
       formData.append("video-"+slide.slide_id,slide.video);
+      formData.append("video_file-"+slide.slide_id,slide.video_file);
       formData.append("archived-"+slide.slide_id,slide.archived);
       formData.append("slide_id-"+slide.slide_id,slide.slide_id);
       slide.images.forEach((image,index)=>{
         formData.append("image_id-"+image.image_id,image.image_id);
         formData.append("slide_id-"+image.image_id,slide.slide_id);
         formData.append("image-"+image.image_id,image.image);
+        formData.append("image_file-"+image.image_id,image.image_file);
         formData.append("archived-"+image.image_id,image.archived);
       })
     });
-    console.log(formData);
     $.ajax({
       url: ''+api_url+'project_api.php',
       method: 'POST',
       data: formData,
       processData: false, 
       contentType: false,
-      /* data: JSON.stringify({ 
-        id: project_id,
-        title: project.preview.title,
-        subTitle: project.preview.subtitle,
-        description: project.preview.description,
-        background: project.preview.background,
-        video: project.preview.video,
-        slides: slides
-
-      }),
-      contentType: 'application/json', */
       success: function(data) {
           console.log('Project saved successfully:', data);
       },
@@ -135,8 +128,8 @@ const Dashboard = () => {
     setSelProject(project);
   };
 
-    const editSlide = (projectId, slideId, updatedFields) => {
-      console.log(updatedFields);
+  const editSlide = (projectId, slideId, updatedFields) => {
+    console.log(updatedFields);
     setProjectsList(prevProjects =>
         prevProjects.map(project => {
         if (project.id !== projectId) return project;
@@ -155,6 +148,7 @@ const Dashboard = () => {
         };
         })
     );
+
     setSelProject(prev => {
         if (prev.id !== projectId) return prev;
 
@@ -169,9 +163,9 @@ const Dashboard = () => {
         )
         };
     });
-    };
+  };
 
-    const newSlide = (projectId) => () => {
+  const newSlide = (projectId) => () => {
     setProjectsList(prevProjects =>
         prevProjects.map(project => {
         if (project.id !== projectId) return project;
@@ -191,6 +185,7 @@ const Dashboard = () => {
         };
         })
     );
+    
     setSelProject(prev => {
         if (prev.id !== projectId) return prev;
         const newSlide = {
@@ -207,60 +202,59 @@ const Dashboard = () => {
         slides: [...prev.slides, newSlide]
         };
     });
+  };
+
+  const deleteSlide = (projectId, slideId) => {
+    setProjectsList(prevProjects =>
+        prevProjects.map(project => {
+        if (project.id !== projectId) return project;
+
+        return {
+            ...project,
+            slides: project.slides.filter(slide => slide.slide_id !== slideId)
+        };
+        })
+    );
+    setSelProject(prev => {
+        if (prev.id !== projectId) return prev;
+
+        return {   
+        ...prev,
+        slides: prev.slides.filter(slide => slide.slide_id !== slideId)
+        };
+    });
+    $.ajax({
+      url: ''+api_url+'slide_api.php',
+      method: 'DELETE',
+      data: JSON.stringify({ 
+        id: slideId,
+      }),
+      error: function(err) {
+        console.error('Error fetching projects:', err);
+      }
+    });
+  };
+
+  const add_project= () =>{
+    const new_project = {
+      id: "",
+      preview:
+      {
+          title: "",
+          subtitle: "",
+          description: "",
+          background: "",
+          video: "",
+      },
+      stats:
+      {
+          views: 0,
+          archived: 0,
+      },
+      slides: [],
     };
-
-    const deleteSlide = (projectId, slideId) => {
-      setProjectsList(prevProjects =>
-          prevProjects.map(project => {
-          if (project.id !== projectId) return project;
-
-          return {
-              ...project,
-              slides: project.slides.filter(slide => slide.slide_id !== slideId)
-          };
-          })
-      );
-      setSelProject(prev => {
-          if (prev.id !== projectId) return prev;
-
-          return {   
-          ...prev,
-          slides: prev.slides.filter(slide => slide.slide_id !== slideId)
-          };
-      });
-      $.ajax({
-        url: ''+api_url+'slide_api.php',
-        method: 'DELETE',
-        data: JSON.stringify({ 
-          id: slideId,
-        }),
-        error: function(err) {
-          console.error('Error fetching projects:', err);
-        }
-      });
-    };
-
-    const add_project= () =>{
-      const new_project = {
-        id: "",
-        preview:
-        {
-            title: "",
-            subtitle: "",
-            description: "",
-            background: "",
-            video: "",
-        },
-        stats:
-        {
-            views: 0,
-            archived: 0,
-        },
-        slides: [],
-      };
-      setProjectsList(prev => [...prev, new_project]);
-      console.log(projects);
-    }
+    setProjectsList(prev => [...prev, new_project]);
+  }
 
 
 
@@ -304,22 +298,22 @@ const Dashboard = () => {
                         <div className='slides-edit'>
                         <div className='preview-editor slide-editor'>
                             <input type="text" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
-                            <input type="text" value={project.preview.subtitle} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
+                            <input type="text" value={project.preview.subtitle} onChange={e => editSlide(project.id, "preview", { subtitle: e.target.value })}/>
                             <textarea value={project.preview.description} onChange={e => editSlide(project.id, "preview", { description: e.target.value })}/>
                             <input type="file" onChange={e => {
                               const file = e.target.files[0];
                               if (file) {
-                                  editSlide(project.id, "preview", { video: file });
+                                  editSlide(project.id, "preview", { video: file, video_preview: URL.createObjectURL(file) });
                               }
                             }} />
-                            <video controls autoPlay muted loop playsInline preload="none">
-                                <source src={api_url+"/uploads/"+project.preview.video} type="video/mp4" />
+                            <video key={project.preview.video_preview || project.preview.video} controls autoPlay muted loop playsInline preload="none">
+                                <source src={project.preview.video_preview?project.preview.video_preview : api_url + "/uploads/" + project.preview.video} type="video/mp4" />
                             </video>
-                            <img src={api_url+"/uploads/"+project.preview.background} alt="" />
+                            <img src={project.preview.background_preview?project.preview.background_preview : api_url + "/uploads/" + project.preview.background} alt="" />
                             <input type="file" onChange={e => {
                               const file = e.target.files[0];
                               if (file) {
-                                  editSlide(project.id, "preview", { background: file });
+                                  editSlide(project.id, "preview", { background: file,background_preview: URL.createObjectURL(file) });
                               }
                             }} />
                         </div>

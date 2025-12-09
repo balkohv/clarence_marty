@@ -8,7 +8,6 @@ const type_slide = {
   PREVIEW: "preview"
 };
 
-
 const api_url = "http://192.168.1.59/clarence/";
 
 const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
@@ -55,13 +54,18 @@ const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
               placeholder="Position du texte"
               onChange={(e) => editSlide(projectId, slide.slide_id, { text_loc: e.target.value })}
             />
-            <input type="file" onChange={e => {
+             <input id="file-upload" type="file" onChange={(e) => {
               const file = e.target.files[0];
               if (file) {
-                  editSlide(projectId, slide.slide_id, { background: file });
+                const previewURL = URL.createObjectURL(file);
+                editSlide(projectId, slide.slide_id, {
+                  background_file: file,
+                  background: file.name,
+                  background_preview: previewURL
+                });
               }
-            }} />
-            <img src={api_url+"/uploads/"+(slide.background!=""?slide.background:null)} alt="" />
+            }} /> 
+            <img src={slide.background_preview?slide.background_preview : api_url + "/uploads/" + slide.background} alt="" />
           </>
         )}
         {slide.type === type_slide.VIDEO && (
@@ -69,21 +73,27 @@ const SlideEdit = ({ slide, projectId, editSlide, deleteSlide }) => {
             <input type="file" onChange={e => {
               const file = e.target.files[0];
               if (file) {
-                  editSlide(projectId, slide.slide_id, { video: file });
+                  editSlide(projectId, slide.slide_id, { 
+                    video_file: file, 
+                    video: file.name,
+                    video_preview: URL.createObjectURL(file) } );
               }
             }} />
-            <video autoPlay muted loop playsInline cotrols preload="none">
-              <source src={api_url+"/uploads/"+slide.video} type="video/mp4" />
+            <video key={slide.video_preview || slide.video} autoPlay muted loop playsInline controls preload="none">
+              <source src={slide.video_preview?slide.video_preview : api_url + "/uploads/" + slide.video} type="video/mp4" />
             </video>
           </>
         )}
         {slide.type === type_slide.CARROUSSEL && (
           <>
-            <img src={api_url+"/uploads/"+(slide.background || "")} alt="" />
+            <img src={slide.background_preview?slide.background_preview : api_url + "/uploads/" + slide.background} alt="" />
             <input type="file" onChange={e => {
               const file = e.target.files[0];
               if (file) {
-                  editSlide(projectId, slide.slide_id, { background: file });
+                  editSlide(projectId, slide.slide_id, { 
+                    background_file: file, 
+                    background: file.name,
+                    background_preview: URL.createObjectURL(file) } );
               }
             }} />
 
