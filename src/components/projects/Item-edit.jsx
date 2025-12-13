@@ -36,7 +36,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                         <img src={api_url+"/uploads/"+(slide.background!=""?slide.background:null)}  alt={`Carrousel Background`} className="carrousel-background" />
                         <div className="carrousel">
                             {slide.images.map((image, imgIndex) => (
-                                <img key={imgIndex} src={api_url+"/uploads/"+image} alt={`Carrousel Image ${imgIndex + 1}`} />
+                                <img key={imgIndex} src={image.image_preview?image.image_preview:api_url+"/uploads/"+image}  alt={`Carrousel Image ${imgIndex + 1}`} />
                             ))}
                         </div>
                     </Row>

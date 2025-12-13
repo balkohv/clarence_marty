@@ -313,10 +313,10 @@ td .online{
   border-radius: 10px;
 }
 
-.slide-editor input,.slide-editor textarea,.slide-editor img{
+.slide-editor input,.slide-editor textarea,.slide-editor img,.slide-editor select{
   border-radius: 5px;
   padding: 10px;
-  width: 300px;
+  width: 29.3%;
   border: none;
 }
 
@@ -377,43 +377,28 @@ td .online{
 }
 
 .slides-edit input ,
-.slides-edit textarea,
-.slides-edit select{
-  height: 30px;
-
+.slides-edit textarea{
+  height: 15px;
 }
 
-.slides-edit select{
-  padding:10px ;
+input[type="file"]{
+  display: none;
 }
 
+.media{
+  display:flex;
+  flex-direction:row;
+  gap: 20px;
+  padding:20px;
+}
 
-/*------------------------file-upload---------------*/
-.file-drop-zone {
+.media button{
+  height: 45px;
+  width: 250px;
+}
+
+.media img, .media video{
+  padding:0;
+  border-radius:10px;
   width: 100%;
-  padding: 40px;
-  border: 2px dashed #4a90e2;
-  border-radius: 12px;
-  background: #f9fbff;
-  cursor: pointer;
-  text-align: center;
-  transition: 0.3s ease;
-}
-
-.file-drop-zone:hover {
-  background: #eef5ff;
-  border-color: #357ab7;
-}
-
-.file-drop-zone:active {
-  transform: scale(0.98);
-}
-
-.file-drop-text {
-  font-size: 16px;
-  color: #555;
-}
-
-.file-drop-text strong {
-  color: #000;
 }

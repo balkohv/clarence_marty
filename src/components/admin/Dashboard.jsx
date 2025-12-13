@@ -28,7 +28,7 @@ import {
 
 const type_slide = {
   IMAGE: "image",
-  CARROUSSEL: "carrousel",
+  CARROUSSEL: "carroussel",
   VIDEO: "video",
   PREVIEW: "preview"
 };
@@ -101,11 +101,12 @@ const Dashboard = () => {
       formData.append("archived-"+slide.slide_id,slide.archived);
       formData.append("slide_id-"+slide.slide_id,slide.slide_id);
       slide.images.forEach((image,index)=>{
-        formData.append("image_id-"+image.image_id,image.image_id);
-        formData.append("slide_id-"+image.image_id,slide.slide_id);
-        formData.append("image-"+image.image_id,image.image);
-        formData.append("image_file-"+image.image_id,image.image_file);
-        formData.append("archived-"+image.image_id,image.archived);
+        const imageKey = image.image_id.toString().startsWith("new-")? "new_" + index: image.image_id;
+        formData.append("image_id-"+slide.slide_id+"-"+imageKey,image.image_id);
+        formData.append("slide_id-"+slide.slide_id+"-"+imageKey,slide.slide_id);
+        formData.append("image-"+slide.slide_id+"-"+imageKey,image.image);
+        formData.append("image_file-"+slide.slide_id+"-"+imageKey,image.image_file);
+        formData.append("archived-"+slide.slide_id+"-"+imageKey,image.archived);
       })
     });
     $.ajax({
@@ -126,6 +127,78 @@ const Dashboard = () => {
   const preview_project = (project) => {
     setEditor(prev => prev === project.id ? null : project.id);
     setSelProject(project);
+  };
+
+  const editImage = (projectId, slideId, imageId, updatedFields) => {
+    setProjectsList(prevProjects =>
+      prevProjects.map(project => {
+        if (project.id !== projectId) return project;
+
+        return {
+          ...project,
+          slides: project.slides.map(slide => {
+            if (slide.slide_id !== slideId) return slide;
+
+            // 🆕 AJOUT
+            if (imageId === "new") {
+              const newImage = {
+                image_id: "new-"+Date.now(), 
+                archived: 0,
+                ...updatedFields,
+              };
+
+              return {
+                ...slide,
+                images: [...slide.images, newImage],
+              };
+            }
+
+            return {
+              ...slide,
+              images: slide.images.map(image =>
+                image.image_id === imageId
+                  ? { ...image, ...updatedFields }
+                  : image
+              ),
+            };
+          }),
+        };
+      })
+    );
+
+    setSelProject(prev => {
+      if (!prev || prev.id !== projectId) return prev;
+
+      return {
+        ...prev,
+        slides: prev.slides.map(slide => {
+          if (slide.slide_id !== slideId) return slide;
+
+          if (imageId === "new") {
+            return {
+              ...slide,
+              images: [
+                ...slide.images,
+                {
+                  image_id: Date.now(),
+                  archived: 0,
+                  ...updatedFields,
+                },
+              ],
+            };
+          }
+
+          return {
+            ...slide,
+            images: slide.images.map(image =>
+              image.image_id === imageId
+                ? { ...image, ...updatedFields }
+                : image
+            ),
+          };
+        }),
+      };
+    });
   };
 
   const editSlide = (projectId, slideId, updatedFields) => {
@@ -300,22 +373,34 @@ const Dashboard = () => {
                             <input type="text" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
                             <input type="text" value={project.preview.subtitle} onChange={e => editSlide(project.id, "preview", { subtitle: e.target.value })}/>
                             <textarea value={project.preview.description} onChange={e => editSlide(project.id, "preview", { description: e.target.value })}/>
-                            <input type="file" onChange={e => {
-                              const file = e.target.files[0];
-                              if (file) {
-                                  editSlide(project.id, "preview", { video: file, video_preview: URL.createObjectURL(file) });
-                              }
-                            }} />
-                            <video key={project.preview.video_preview || project.preview.video} controls autoPlay muted loop playsInline preload="none">
-                                <source src={project.preview.video_preview?project.preview.video_preview : api_url + "/uploads/" + project.preview.video} type="video/mp4" />
-                            </video>
-                            <img src={project.preview.background_preview?project.preview.background_preview : api_url + "/uploads/" + project.preview.background} alt="" />
-                            <input type="file" onChange={e => {
-                              const file = e.target.files[0];
-                              if (file) {
-                                  editSlide(project.id, "preview", { background: file,background_preview: URL.createObjectURL(file) });
-                              }
-                            }} />
+                            <div className='media-container'>
+                              <div className='media'>
+                                <button onClick={() => document.getElementById("preview-video").click()}>
+                                  Choisir une video
+                                </button>
+                                <input type="file" id='preview-video' onChange={e => {
+                                  const file = e.target.files[0];
+                                  if (file) {
+                                      editSlide(project.id, "preview", { video: file, video_preview: URL.createObjectURL(file) });
+                                  }
+                                }} />
+                                <video key={project.preview.video_preview || project.preview.video} controls autoPlay muted loop playsInline preload="none">
+                                    <source src={project.preview.video_preview?project.preview.video_preview : api_url + "/uploads/" + project.preview.video} type="video/mp4" />
+                                </video>
+                              </div>
+                              <div className='media'>
+                                <button onClick={() => document.getElementById("preview-background").click()}>
+                                  Choisir un fond
+                                </button>
+                                <input type="file" id='preview-background' onChange={e => {
+                                  const file = e.target.files[0];
+                                  if (file) {
+                                      editSlide(project.id, "preview", { background: file,background_preview: URL.createObjectURL(file) });
+                                  }
+                                }} />
+                                <img src={project.preview.background_preview?project.preview.background_preview : api_url + "/uploads/" + project.preview.background} alt="" />
+                              </div> 
+                            </div>
                         </div>
 
                         </div>
@@ -349,7 +434,7 @@ const Dashboard = () => {
 
                           <SortableContext items={project.slides.map(s => s.slide_id)} strategy={verticalListSortingStrategy}>
                             {project.slides.map(slide => (
-                              <SlideEdit key={project.id+""+slide.slide_id} slide={slide} projectId={project.id} editSlide={editSlide} deleteSlide={deleteSlide} />
+                              <SlideEdit key={project.id+""+slide.slide_id} slide={slide} projectId={project.id} editSlide={editSlide} editImage={editImage} deleteSlide={deleteSlide} />
                             ))}
                           </SortableContext>
                         </DndContext>

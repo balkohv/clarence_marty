@@ -29,13 +29,13 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                     </Row>
                 );
 
-            case "carrousel":
+            case "carroussel":
                 return (
                     <Row key={index} xs="12" className='slide-item carrousel-slide' >
                         <img src={api_url+"/uploads/"+(slide.background!=""?slide.background:null)} alt={`Carrousel Background`} className="carrousel-background" />
                         <div className="carrousel">
                             {slide.images.map((image, imgIndex) => (
-                                <img key={imgIndex} src={api_url+"/uploads/"+(image!=""?image:null)} alt={`Carrousel Image ${imgIndex + 1}`} />
+                                <img key={imgIndex} src={api_url+"/uploads/"+(image.image!=""?image.image:null)} alt={`Carrousel Image ${imgIndex + 1}`} />
                             ))}
                         </div>
                     </Row>
