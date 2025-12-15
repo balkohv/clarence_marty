@@ -1,5 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import $ from 'jquery';
+import Add_image from "../../assets/add_image.png";
 
 const type_slide = {
   IMAGE: "image",
@@ -18,6 +20,16 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
     transform: CSS.Transform.toString(transform),
     transition
   };
+
+  
+  const deleteImageApi = (imageId) => {
+    return $.ajax({
+      url: api_url + 'image_api.php',
+      method: 'DELETE',
+      data: JSON.stringify({ id: imageId }),
+    });
+  };
+
 
   return (
     <div ref={setNodeRef} style={style} className="slides-edit">
@@ -117,7 +129,7 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                   }
                 }} />
               </div>
-              <div className="carrousel-images-editor">
+              <div className="carroussel-images-editor">
                 {Array.isArray(slide.images) && slide.images.map((image, idx) => (
                   <div key={idx} className="carroussel-image-editor">
                     <button onClick={() => document.getElementById("carroussel-image-"+ image.image_id).click()}>
@@ -132,13 +144,21 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                             image_preview: URL.createObjectURL(file) } );
                       }
                     } }/>
-                    <img src={image.image_preview?image.image_preview:api_url+"/uploads/"+image} alt="" />
+                    <div className="carroussel-image-container">
+                      <img src={image.image_preview?image.image_preview:api_url+"/uploads/"+image.image} alt="" />
+                      <div className="delete-image" onClick={() => {deleteImageApi(image.image_id);editImage(projectId, slide.slide_id, image.image_id, { archived: 1 });}} title="Supprimer l'image">
+                        X
+                      </div>
+                    </div>
                   </div>
                 ))}
-                <div className="carroussel-image-editor">
+                {Array.isArray(slide.images) && slide.images.length < 3 && (
+                <div className="carroussel-image-editor ">
                   <button onClick={() => document.getElementById("carroussel-image-new").click()}>
-                      Choisir une image
-                    </button>
+                    Choisir une image
+                  </button>
+                  <div className="carroussel-image-container">
+                    <img src={Add_image} alt="" />
                     <input id={"carroussel-image-new"}  type="file" onChange={e => {
                       const file = e.target.files[0];
                       if (file) {
@@ -148,7 +168,9 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                             image_preview: URL.createObjectURL(file) } );
                       }
                     } }/>
+                  </div>
                 </div>
+                )}
               </div>
             </div>
           </>

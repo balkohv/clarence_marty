@@ -1,7 +1,6 @@
 import './Admin.css';
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import eiko_bg from '../../assets/projects/eiko_bg.png';
 import Item from '../projects/Item-edit.jsx';
 import SlideEdit from './slide-edit.jsx';
 import $ from 'jquery';
@@ -129,77 +128,47 @@ const Dashboard = () => {
     setSelProject(project);
   };
 
+
   const editImage = (projectId, slideId, imageId, updatedFields) => {
-    setProjectsList(prevProjects =>
-      prevProjects.map(project => {
-        if (project.id !== projectId) return project;
+    const update = (project) => ({
+      ...project,
+      slides: project.slides.map(slide => {
+        if (slide.slide_id !== slideId) return slide;
 
-        return {
-          ...project,
-          slides: project.slides.map(slide => {
-            if (slide.slide_id !== slideId) return slide;
-
-            // 🆕 AJOUT
-            if (imageId === "new") {
-              const newImage = {
-                image_id: "new-"+Date.now(), 
-                archived: 0,
-                ...updatedFields,
-              };
-
-              return {
-                ...slide,
-                images: [...slide.images, newImage],
-              };
-            }
-
-            return {
-              ...slide,
-              images: slide.images.map(image =>
-                image.image_id === imageId
-                  ? { ...image, ...updatedFields }
-                  : image
-              ),
-            };
-          }),
-        };
-      })
-    );
-
-    setSelProject(prev => {
-      if (!prev || prev.id !== projectId) return prev;
-
-      return {
-        ...prev,
-        slides: prev.slides.map(slide => {
-          if (slide.slide_id !== slideId) return slide;
-
-          if (imageId === "new") {
-            return {
-              ...slide,
-              images: [
-                ...slide.images,
-                {
-                  image_id: Date.now(),
-                  archived: 0,
-                  ...updatedFields,
-                },
-              ],
-            };
-          }
-
+        if (imageId === "new") {
           return {
             ...slide,
-            images: slide.images.map(image =>
-              image.image_id === imageId
-                ? { ...image, ...updatedFields }
-                : image
-            ),
+            images: [
+              ...slide.images,
+              {
+                image_id: "new-" + Date.now(),
+                archived: 0,
+                ...updatedFields,
+              },
+            ],
           };
-        }),
-      };
+        }
+
+        if (updatedFields.archived === 1) {
+          return {
+            ...slide,
+            images: slide.images.filter(img => img.image_id !== imageId),
+          };
+        }
+
+        return {
+          ...slide,
+          images: slide.images.map(img =>
+            img.image_id === imageId ? { ...img, ...updatedFields } : img
+          ),
+        };
+      }),
     });
+
+    setProjectsList(prev => prev.map(p => p.id === projectId ? update(p) : p));
+    setSelProject(prev => prev?.id === projectId ? update(prev) : prev);
   };
+
 
   const editSlide = (projectId, slideId, updatedFields) => {
     console.log(updatedFields);
