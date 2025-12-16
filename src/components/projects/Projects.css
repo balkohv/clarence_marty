@@ -205,6 +205,10 @@
 .carrousel img {
   height: 80%;
   z-index: 1;
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+  aspect-ratio: 3 / 7;
 }
 
 .carrousel{

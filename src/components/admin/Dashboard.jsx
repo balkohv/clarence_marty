@@ -3,6 +3,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import Item from '../projects/Item-edit.jsx';
 import SlideEdit from './slide-edit.jsx';
+import { useState, useEffect } from 'react';
 import $ from 'jquery';
 import {
   LineChart,
@@ -38,6 +39,8 @@ const Dashboard = () => {
   const [projects, setProjectsList] = React.useState([]);
   const [selProject, setSelProject] = React.useState(null);
   const [editor, setEditor] = React.useState(null);
+  const [pendingSave, setPendingSave] = useState(null);
+
 
   React.useEffect(() => {
     // Initial mock data
@@ -45,6 +48,11 @@ const Dashboard = () => {
     $.ajax({
       url: ''+api_url+'project_api.php',
       method: 'GET',
+      dataType: 'json',
+      data: {
+        isAdmin: 1
+      },
+      contentType: 'application/json',
       success: function(data) {
           for (const raw_project of data.data) {
             let project={
@@ -65,7 +73,7 @@ const Dashboard = () => {
               slides: raw_project.slides,
             }
             setProjectsList(prev => [...prev, project]);
-          setSelProject(project);
+            setSelProject(project);
           }
         
       },
@@ -74,6 +82,14 @@ const Dashboard = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (!pendingSave) return;
+
+    save_changes(pendingSave);
+    setPendingSave(null);
+  }, [projects]);
+
 
   const save_changes = (project_id) => {
     let project=projects.find(p => p.id === project_id);
@@ -87,6 +103,7 @@ const Dashboard = () => {
     formData.append("background_file",project.preview.background_file);
     formData.append("video",project.preview.video);
     formData.append("video_file",project.preview.video_file);
+    formData.append("archived",project.stats.archived);
     project.slides.forEach((slide, index)=> {
       formData.append("background-"+slide.slide_id,slide.background);
       formData.append("background_file-"+slide.slide_id,slide.background_file);
@@ -171,7 +188,6 @@ const Dashboard = () => {
 
 
   const editSlide = (projectId, slideId, updatedFields) => {
-    console.log(updatedFields);
     setProjectsList(prevProjects =>
         prevProjects.map(project => {
         if (project.id !== projectId) return project;
@@ -182,6 +198,14 @@ const Dashboard = () => {
             preview: { ...project.preview, ...updatedFields }
             };
         }
+
+        if (slideId === "projet") {
+            return {
+            ...project,
+            stats: { ...project.stats, ...updatedFields }
+            };
+        }
+
         return {
             ...project,
             slides: project.slides.map(slide =>
@@ -205,6 +229,9 @@ const Dashboard = () => {
         )
         };
     });
+    if (slideId === "projet") {
+      setPendingSave(projectId);
+    }
   };
 
   const newSlide = (projectId) => () => {
@@ -336,12 +363,32 @@ const Dashboard = () => {
                   <tr className={`editor ${editor === project.id ? "active" : ""}`}>
                     {editor === project.id && (
                       <div className='slide-editor-container'>
-                        <h2>Preview</h2>
+                        <div>
+                          <h2>Édition du projet : {project.preview.title}</h2>
+                          <label className="switch">
+                            <input 
+                              type="checkbox" 
+                              id="archived" 
+                              checked={!project.stats.archived} 
+                              onChange={e => editSlide(project.id, "projet", { archived: !e.target.checked})}
+                            />
+                            <span className="slider"></span>
+                          </label>
+                        </div>
                         <div className='slides-edit'>
                         <div className='preview-editor slide-editor'>
-                            <input type="text" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
-                            <input type="text" value={project.preview.subtitle} onChange={e => editSlide(project.id, "preview", { subtitle: e.target.value })}/>
-                            <textarea value={project.preview.description} onChange={e => editSlide(project.id, "preview", { description: e.target.value })}/>
+                            <div className='form-data'>
+                              <label htmlFor="title">Titre</label>
+                              <input type="text" id="title" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
+                            </div>
+                            <div className='form-data'>
+                              <label htmlFor="subtitle">Sous-titre</label>
+                              <input type="text" id="subtitle" value={project.preview.subtitle} onChange={e => editSlide(project.id, "preview", { subtitle: e.target.value })}/>
+                            </div>
+                            <div className='form-data'>
+                              <label htmlFor="description">Description</label>
+                              <textarea id="description" value={project.preview.description} onChange={e => editSlide(project.id, "preview", { description: e.target.value })}/>
+                            </div>
                             <div className='media-container'>
                               <div className='media'>
                                 <button onClick={() => document.getElementById("preview-video").click()}>
@@ -408,11 +455,9 @@ const Dashboard = () => {
                           </SortableContext>
                         </DndContext>
 
-                        <div className='new-slide'>
-                          <input type="button" value="+ Ajouter une slide" onClick={newSlide(project.id)}/>
-                        </div>
-                        <div className='save-changes'>
-                          <input type="button" value="Sauvegarder les modifications" onClick={() =>save_changes(project.id)}/>
+                        <div className='bottom-buttons'>
+                          <button onClick={newSlide(project.id)}>+ Ajouter une slide</button>
+                          <button onClick={() =>save_changes(project.id)}>Sauvegarder les modifications</button>
                         </div>
                       </div>
                     )}

@@ -381,6 +381,7 @@ input[type="file"]{
   padding:0;
   border-radius:10px;
   width: 100%;
+  max-width: 70%;
 }
 
 .carroussel-image-editor{
@@ -434,4 +435,89 @@ input[type="file"]{
   position: relative;
   flex:1;
   overflow: hidden;
+}
+
+.form-data{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-data input, .form-data textarea, .form-data select{
+  width: 90%;
+  max-width: 300px;
+}
+
+.form-data label{
+  font-size: 1em;
+}
+
+/* Container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+/* Cache la checkbox native */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #444;
+  transition: 0.25s;
+  border-radius: 24px;
+}
+
+/* Cercle */
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: 0.25s;
+  border-radius: 50%;
+}
+
+/* Checked */
+.switch input:checked + .slider {
+  background-color: #4ade80; /* vert doux */
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+/* Focus (accessibilité) */
+.switch input:focus + .slider {
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.4);
+}
+
+/* Disabled */
+.switch input:disabled + .slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slide-editor-container>div:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bottom-buttons{
+  display:flex;
+  justify-content: space-between;
 }

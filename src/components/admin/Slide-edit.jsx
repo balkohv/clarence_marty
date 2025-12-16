@@ -10,6 +10,11 @@ const type_slide = {
   PREVIEW: "preview"
 };
 
+const loc = {
+  LEFT:"left",
+  RIGHT:"right"
+}
+
 const api_url = "http://192.168.1.59/clarence/";
 
 const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
@@ -42,30 +47,45 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
             x
           </div>
         </div>
-        <select
-          value={slide.type}
-          onChange={e => editSlide(projectId, slide.slide_id, { type: e.target.value })}
-        >
-          <option value={type_slide.IMAGE}>Image</option>
-          <option value={type_slide.VIDEO}>Vidéo</option>
-          <option value={type_slide.CARROUSSEL}>Carroussel</option>
-        </select>
+        <div className="form-data">
+          <label htmlFor="type">Type de diapositive</label>
+          <select
+            name="type"
+            value={slide.type}
+            onChange={e => editSlide(projectId, slide.slide_id, { type: e.target.value })}
+          >
+            <option value={type_slide.IMAGE}>Image</option>
+            <option value={type_slide.VIDEO}>Vidéo</option>
+            <option value={type_slide.CARROUSSEL}>Carroussel</option>
+          </select>
+        </div>
 
         {slide.type === type_slide.IMAGE && (
           <>
-            <input
-              type="text"
-              value={slide.text}
-              placeholder="Texte"
-              onChange={e => editSlide(projectId, slide.slide_id, { text: e.target.value })}
-            />
-
-            <input
-              type="text"
-              value={slide.text_loc}
-              placeholder="Position du texte"
-              onChange={(e) => editSlide(projectId, slide.slide_id, { text_loc: e.target.value })}
-            />
+            <div className="form-data">
+              <label htmlFor="description">Description</label>
+              <input
+                type="text"
+                value={slide.text}
+                name="description"
+                placeholder="Texte"
+                onChange={e => editSlide(projectId, slide.slide_id, { text: e.target.value })}
+              />
+            </div>
+            <div className="form-data">
+              <label htmlFor="text_loc">Position du texte</label>
+              <select name="text_loc" id="text_loc" value={slide.text_loc} onChange={(e) => editSlide(projectId, slide.slide_id, { text_loc: e.target.value })}>
+                <option value={loc.LEFT}>Gauche</option>
+                <option value={loc.RIGHT}>Droite</option>
+              </select>
+              {/* <input
+                type="text"
+                value={slide.text_loc}
+                name="text_loc"
+                placeholder="Position du texte"
+                onChange={(e) => editSlide(projectId, slide.slide_id, { text_loc: e.target.value })}
+              /> */}
+            </div>
             <div className="media-container">
               <div className="media">
                 <button onClick={() => document.getElementById("image-background-slide-"+slide.slide_id).click()}>
