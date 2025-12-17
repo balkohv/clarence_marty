@@ -64,8 +64,7 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
           <>
             <div className="form-data">
               <label htmlFor="description">Description</label>
-              <input
-                type="text"
+              <textarea
                 value={slide.text}
                 name="description"
                 placeholder="Texte"

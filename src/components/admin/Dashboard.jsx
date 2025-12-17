@@ -40,6 +40,8 @@ const Dashboard = () => {
   const [selProject, setSelProject] = React.useState(null);
   const [editor, setEditor] = React.useState(null);
   const [pendingSave, setPendingSave] = useState(null);
+  const [saveStatus, setSaveStatus] = useState("idle");
+
 
 
   React.useEffect(() => {
@@ -50,7 +52,8 @@ const Dashboard = () => {
       method: 'GET',
       dataType: 'json',
       data: {
-        isAdmin: 1
+        isAdmin: 1,
+        action:"getAll"
       },
       contentType: 'application/json',
       success: function(data) {
@@ -92,6 +95,7 @@ const Dashboard = () => {
 
 
   const save_changes = (project_id) => {
+    setSaveStatus("loading");
     let project=projects.find(p => p.id === project_id);
     let slides = JSON.parse(JSON.stringify(project.slides));
     const formData = new FormData();
@@ -133,9 +137,13 @@ const Dashboard = () => {
       contentType: false,
       success: function(data) {
           console.log('Project saved successfully:', data);
+          setSaveStatus("success");
+          setTimeout(() => setSaveStatus("idle"), 1500);
       },
       error: function(err) {
         console.error('Error saving project:', err);
+        setSaveStatus("error");
+        setTimeout(() => setSaveStatus("idle"), 2000);
       }
     });
   };
@@ -348,7 +356,7 @@ const Dashboard = () => {
         <h1>MES PROJETS</h1>
         <Row className='projects_container'>
           <Col className='projects_list'>
-            <button onClick={()=>add_project()}>add project</button>
+            <button onClick={()=>add_project()}>+ Nouveau projet</button>
             <table><tbody>
               {projects.map((project, index) => (
                 <React.Fragment key={project.id}>
@@ -472,6 +480,32 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Row>
+      {saveStatus !== "idle" && (
+        <div className={`saving-overlay ${saveStatus}`}>
+          
+          {saveStatus === "loading" && (
+            <>
+              <div className="loader"></div>
+              <p>Sauvegarde en cours…</p>
+            </>
+          )}
+
+          {saveStatus === "success" && (
+            <>
+              <div className="icon success">✓</div>
+              <p>Sauvegardé</p>
+            </>
+          )}
+
+          {saveStatus === "error" && (
+            <>
+              <div className="icon error">✕</div>
+              <p>Erreur de sauvegarde</p>
+            </>
+          )}
+
+        </div>
+      )}
     </div>
   );
 };
