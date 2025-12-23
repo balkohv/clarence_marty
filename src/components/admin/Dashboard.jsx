@@ -41,7 +41,8 @@ const Dashboard = () => {
   const [editor, setEditor] = React.useState(null);
   const [pendingSave, setPendingSave] = useState(null);
   const [saveStatus, setSaveStatus] = useState("idle");
-
+  const [types, setTypes] = React.useState([]);
+  const [showModal, setShowModal] = React.useState(false);
 
 
   React.useEffect(() => {
@@ -57,9 +58,10 @@ const Dashboard = () => {
       },
       contentType: 'application/json',
       success: function(data) {
-          for (const raw_project of data.data) {
+          for (const raw_project of data.data.projects) {
             let project={
               id: raw_project.project_id,
+              type: raw_project.type,
               preview:
               {
                   title: raw_project.title,
@@ -78,7 +80,9 @@ const Dashboard = () => {
             setProjectsList(prev => [...prev, project]);
             setSelProject(project);
           }
-        
+        for (const type of data.data.types) {
+          setTypes(prev => [...prev, type.type]);
+        }
       },
       error: function(err) {
         console.error('Error fetching projects:', err);
@@ -100,6 +104,7 @@ const Dashboard = () => {
     let slides = JSON.parse(JSON.stringify(project.slides));
     const formData = new FormData();
     formData.append("id",project_id);
+    formData.append("type",project.type);
     formData.append("title",project.preview.title);
     formData.append("subTitle",project.preview.subtitle);
     formData.append("description",project.preview.description);
@@ -207,12 +212,20 @@ const Dashboard = () => {
             };
         }
 
-        if (slideId === "projet") {
+        if (slideId === "archived") {
             return {
             ...project,
             stats: { ...project.stats, ...updatedFields }
             };
         }
+
+        if (slideId === "projet") {
+          return {
+            ...project,
+            ...updatedFields
+          };
+        }
+
 
         return {
             ...project,
@@ -363,6 +376,7 @@ const Dashboard = () => {
                   <tr className="project" onClick={() => preview_project(project)}>
                     <td>{index}</td>
                     <td>{project.preview.title}</td>
+                    <td>{project.type}</td>
                     <td>{project.preview.subtitle}</td>
                     <td>{project.stats.views} views</td>
                     <td><span className={project.stats.archived ? "archived" : "online"}>{project.stats.archived ? "Archivé" : "En ligne"}</span></td>
@@ -378,7 +392,7 @@ const Dashboard = () => {
                               type="checkbox" 
                               id="archived" 
                               checked={!project.stats.archived} 
-                              onChange={e => editSlide(project.id, "projet", { archived: !e.target.checked})}
+                              onChange={e => editSlide(project.id, "archived", { archived: !e.target.checked})}
                             />
                             <span className="slider"></span>
                           </label>
@@ -388,6 +402,14 @@ const Dashboard = () => {
                             <div className='form-data'>
                               <label htmlFor="title">Titre</label>
                               <input type="text" id="title" value={project.preview.title} onChange={e => editSlide(project.id, "preview", { title: e.target.value })}/>
+                            </div>
+                            <div className='form-data categories'>
+                              <label htmlFor="type"><p>Catégorie</p><span onClick={() => setShowModal(true)}>+</span></label>
+                              <select id="type" value={project.type} onChange={e => editSlide(project.id, "projet", { type: e.target.value })}>
+                                {types.map((type, index) => (
+                                  <option key={index} value={type}>{type}</option>
+                                ))}
+                              </select>
                             </div>
                             <div className='form-data'>
                               <label htmlFor="subtitle">Sous-titre</label>
@@ -480,6 +502,22 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Row>
+      {showModal && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            
+            <h2>Ajouter une catégorie</h2>
+            <input type="text" id="new-category" placeholder="Nom de la catégorie" />
+              <button onClick={() => {
+                const newCategory = document.getElementById("new-category").value;
+                if (newCategory && !types.includes(newCategory)) {
+                  setTypes(prev => [...prev, newCategory]);
+                  setShowModal(false);
+                }
+              }}>Ajouter</button>
+          </div>
+        </div>
+      )}
       {saveStatus !== "idle" && (
         <div className={`saving-overlay ${saveStatus}`}>
           

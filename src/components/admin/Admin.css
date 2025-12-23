@@ -452,6 +452,25 @@ input[type="file"]{
   font-size: 1em;
 }
 
+.form-data.categories label{
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-data.categories label p{
+  margin:0;
+}
+
+.form-data.categories label span{
+  cursor: pointer;
+  transition: all ease 0.3s;
+}
+
+.form-data.categories label span:hover{
+  transform: scale(1.5);
+  transition: all ease 0.3s;
+}
+
 /* Container */
 .switch {
   position: relative;
@@ -589,3 +608,42 @@ input[type="file"]{
     opacity: 1;
   }
 }
+
+.modal-backdrop{
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(19, 19, 19, 0.77);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.modal-content{
+  background-color: var(--lighter-background);
+  border-radius: 10px;
+  width: 500px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.modal-content input{
+  border: none;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.modal-content button{
+  width: 20%;
+}
+
+
