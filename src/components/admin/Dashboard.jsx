@@ -33,7 +33,8 @@ const type_slide = {
   PREVIEW: "preview"
 };
 
-const api_url = "http://192.168.1.59/clarence/";
+const api_url = import.meta.env.VITE_API_URL;
+console.log("API URL:", api_url);
 
 const Dashboard = () => {
   const [projects, setProjectsList] = React.useState([]);

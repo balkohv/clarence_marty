@@ -8,8 +8,7 @@ const type_slide = {
   VIDEO: "video",
 };
 
-var prev_slide = null;
-const api_url = "http://192.168.1.59/clarence/";
+const api_url = import.meta.env.VITE_API_URL;
 
 const Tab = ({ category, position, isActive, projects }) => {
   

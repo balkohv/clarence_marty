@@ -15,7 +15,7 @@ const loc = {
   RIGHT:"right"
 }
 
-const api_url = "http://192.168.1.59/clarence/";
+const api_url = import.meta.env.VITE_API_URL;
 
 const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =

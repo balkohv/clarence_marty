@@ -2,7 +2,7 @@ import { Col, Row } from 'react-bootstrap';
 import { useRef } from "react";
 
 
-const api_url = "http://192.168.1.59/clarence/";
+const api_url = import.meta.env.VITE_API_URL;
 
 const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}) => {
 

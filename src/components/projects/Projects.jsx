@@ -11,7 +11,7 @@ const Projects = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const [prevCategory, setPrevCategory] = useState(0);
   const [projects, setProjectsList] = useState([]);
-  const api_url = "http://192.168.1.59/clarence/";
+const api_url = import.meta.env.VITE_API_URL;
 
   const categories_click = (tab) => {
     if (tab === activeCategory) return;
