@@ -91,7 +91,7 @@ const AboutMe = ({isServices}) => {
             </Row>
             </Row>
             <Row className='logo-wall-section'>
-            <h1>Il m'ont fait confiance</h1>
+            <h1>Ils m'ont fait confiance</h1>
                 <div className="logo-wall">
                     <img src={logo.logo2} alt="GoPro" />
                     <img src={logo.logo3} alt="Specialized" />

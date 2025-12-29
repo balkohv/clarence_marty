@@ -106,7 +106,6 @@ td:first-child {
 
 td:last-child {
   padding-left: 20px;
-  font-size:smaller;
 }
 
 .logo-wall-section img{
@@ -234,6 +233,10 @@ td:last-child {
   td{
     padding:0px 0px!important;
     width: 50% !important;
+  }
+
+  td:last-child {
+    font-size:smaller;
   }
 
   tr{
