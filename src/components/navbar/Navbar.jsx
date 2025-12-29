@@ -70,7 +70,7 @@ const Navbar = ({ page,show_modal}) => {
           className={`tab ${page === "projects" ? "active-tab" : ""}`}
           href="/projects"
         >
-          Mes réalisations
+          Réalisations
         </a>
         <a
           id="contact"

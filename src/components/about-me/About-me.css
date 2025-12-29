@@ -46,6 +46,7 @@
     transform: translateX(-50%);
     cursor: pointer;
     animation: bounce 2s infinite;
+    width: fit-content;
 }
 
 @keyframes bounce {
@@ -109,7 +110,7 @@ td:last-child {
 }
 
 .logo-wall-section img{
-  height:200px;
+  width: 16vw;
 }
 
 .logo-wall-section tr{
@@ -128,6 +129,13 @@ td:last-child {
 
 .logo-wall-section svg{
   fill:#fff;
+}
+
+.logo-wall{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0px 5vw;
 }
 
 .contact-section{
@@ -157,6 +165,82 @@ td:last-child {
   vertical-align: middle;
 }
 
+.contact-text p{
+  display: flex;
+}
+
 .contact-img{
   display: flex;
+  align-items: center;
+}
+
+.contact-img img{
+  width: 100%;
+  height: fit-content;
+  min-height: 250px;
+  object-fit: cover;
+}
+
+.about-me_container{
+    width:100%;
+  }
+
+
+@media (max-width: 768px) {
+  .video-title h1 {
+    font-size: 3em;
+    margin: 0;
+  }
+  .video-title h2{
+  font-size: 1.5em;
+  }
+
+  
+  .about-me_container h1{
+    font-size:medium;
+  }
+  .about-me_container p, .about-me_container h2{
+    font-size: small;
+  }
+
+  .about-me-text{
+    padding: 40px;
+  }
+
+  .about-me-image{
+    width: 40%;
+  }
+  .about-me-image img{
+    height: 30vh;
+    object-fit: cover;
+    overflow: hidden;
+    object-position: center;
+    aspect-ratio: 4 / 5;
+
+  }
+
+  .about-me-section{
+    align-items: center;
+  }
+
+  .services-section{
+    padding: 0px 40px;
+  }
+  
+  tbody{
+    width: 100% !important;
+  }
+
+  td{
+    padding:0px 0px!important;
+    width: 50% !important;
+  }
+
+  tr{
+    width: 100%;
+  }
+
+  .contact-text{
+    padding: 40px;
+  }
 }

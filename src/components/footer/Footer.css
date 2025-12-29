@@ -39,3 +39,10 @@
 #footer-contact-text p{
     font-size: medium;
 }
+
+@media (max-width: 768px) {
+    
+    #footer-container p{
+    font-size: x-small !important;
+    }
+}

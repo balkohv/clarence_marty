@@ -1,5 +1,6 @@
 #navbar-container{
 
+    top:2vh;
     z-index: 6;
     position: fixed; /*test*/
     margin-top: 5vh;
@@ -122,5 +123,43 @@
 
 svg.active{
     display: block !important;
+}
+
+
+/* =========================
+   MOBILE (≤ 768px)
+========================= */
+@media (max-width: 768px) {
+
+    #navbar-container {
+        height: 60px; /* vh = instable sur mobile */
+        margin-top: 15px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+    }
+
+    #logo-container {
+        display:none;
+        margin-left: 12px;
+    }
+
+    #logo {
+        font-size: 15px;
+    }
+
+    #tabs-container {
+        width: 100%;
+        gap: 16px;
+        padding-right: 12px;
+        font-size: 15px;
+        display: flex;
+        justify-content: center;
+    }
+
+    #contact {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
 }
 

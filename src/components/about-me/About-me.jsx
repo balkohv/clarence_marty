@@ -55,7 +55,7 @@ const AboutMe = ({isServices}) => {
             </div>
             <Downarrow className="down-arrow" onClick={scrollToAbout} />
         </div>
-        <div>
+        <div className="about-me_container">
             <Row className="about-me-section" ref={AboutRef}>
             <Col xs={3} className="about-me-text">
                 <h1>À propos</h1>
@@ -92,22 +92,16 @@ const AboutMe = ({isServices}) => {
             </Row>
             <Row className='logo-wall-section'>
             <h1>Il m'ont fait confiance</h1>
-            <table>
-                <tbody>
-                <tr>
-                    <td><img src={logo.logo2} alt="GoPro" /></td>
-                    <td><img src={logo.logo3} alt="Specialized" /></td>
-                    <td><img src={logo.logo4} alt="Trek" /></td>
-                    <td><img src={logo.logo5} alt="Fox Racing" /></td>
-                    <td><img src={logo.logo6} alt="Shimano" /></td>
-                </tr>
-                <tr>
-                    <td><img src={logo.logo7} alt="Continental" /></td>
-                    <td><img src={logo.logo8} alt="Oakley" /></td>
-                    <td><img src={logo.logo9} alt="Monster Energy" /></td>
-                </tr>
-                </tbody>
-            </table>
+                <div className="logo-wall">
+                    <img src={logo.logo2} alt="GoPro" />
+                    <img src={logo.logo3} alt="Specialized" />
+                    <img src={logo.logo4} alt="Trek" />
+                    <img src={logo.logo5} alt="Fox Racing" />
+                    <img src={logo.logo6} alt="Shimano" />
+                    <img src={logo.logo7} alt="Continental" />
+                    <img src={logo.logo8} alt="Oakley" />
+                    <img src={logo.logo9} alt="Monster Energy" />
+                </div>
             </Row>
             <Row className='contact-section'>
             <Col xs={4} className="contact-text">
