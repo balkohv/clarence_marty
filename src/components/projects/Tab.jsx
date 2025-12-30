@@ -15,12 +15,10 @@ const Tab = ({ category, position, isActive, projects }) => {
   const [active_slide, setActive_slide] = React.useState(null);
 
   const handleSlideChange = ( slide,project_id) => {
-      if(slide == prev_slide){
+      if(slide == active_slide){
         setActive_slide(null);
-        prev_slide=null;
       }else{
         setActive_slide(slide);
-        prev_slide = slide;
         $.ajax({
           url: ''+api_url+'project_api.php',
           method: 'GET',
