@@ -7,6 +7,7 @@ import Footer from "./components/footer/Footer"
 import React, { useEffect, useState } from "react";
 import Navbar from './components/navbar/Navbar';
 import Dashboard from './components/admin/dashboard.jsx';
+import Login from './components/users/login.jsx';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           { <Route path="/services" element={<About isServices={1}/>} /> }
           { <Route path="/projects" element={<Projects />} /> }
           { <Route path="/admin" element={<Dashboard />} />}
+          { <Route path="/login" element={<Login />} />}
         </Routes>
       </BrowserRouter>
       <Col className={`filter ${modalIsActive?"active":""}`} onClick={show_modal}>

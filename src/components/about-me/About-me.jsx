@@ -1,5 +1,5 @@
 import "./About-me.css";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { useRef } from "react";
 import Navbar from '../navbar/Navbar'
 import Footer from '../footer/Footer';
@@ -11,10 +11,23 @@ import mail from '../../assets/mail.png';
 import telephone from '../../assets/telephone.png';
 import * as logo from '../../assets/logos';
 import Downarrow from '../../assets/SVG/Downarrow.svg?react';
+import $ from 'jquery';
 
 const AboutMe = ({isServices}) => {
     const servicesRef = useRef(null);
     const AboutRef = useRef(null);
+    const api_url = import.meta.env.VITE_API_URL;
+
+    useEffect(() => {
+        if (localStorage.getItem('firstVisite') == null){
+            $.ajax({
+                url: api_url+'site_api.php',
+                method: 'GET',
+                success: (response) => {localStorage.setItem('firstVisite', 'true'); },
+                error: (err) => { console.log(err); }
+            });
+        }
+    }, []);
 
     const scrollToServices = () => {
         servicesRef.current?.scrollIntoView({ behavior: "smooth" });

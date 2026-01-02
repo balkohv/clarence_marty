@@ -1,4 +1,5 @@
 import './Admin.css';
+import Logout from '../../assets/SVG/Logout.svg?react';
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import Item from '../projects/Item-edit.jsx';
@@ -26,15 +27,14 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
+const api_url = import.meta.env.VITE_API_URL;
+
 const type_slide = {
   IMAGE: "image",
   CARROUSSEL: "carroussel",
   VIDEO: "video",
   PREVIEW: "preview"
 };
-
-const api_url = import.meta.env.VITE_API_URL;
-console.log("API URL:", api_url);
 
 const Dashboard = () => {
   const [projects, setProjectsList] = React.useState([]);
@@ -44,13 +44,55 @@ const Dashboard = () => {
   const [saveStatus, setSaveStatus] = useState("idle");
   const [types, setTypes] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
+  const [views, setViews] = React.useState([]);
+
+  
+useEffect(() => {
+  if(localStorage.getItem("user")==null){
+      console.log("no user");
+      window.location.href = '/login';
+  }else{
+    $.ajax({
+      url:api_url+'user_api.php',
+      method: 'POST',
+      data: {
+          action: "is_user",
+          id: JSON.parse(localStorage.getItem("user"))
+      },
+      success: (response) => {
+          if(response.status_code !== 200) {
+              localStorage.removeItem('user');
+              window.location.href = '/login'; 
+          }
+      },
+      error: () => {
+          localStorage.removeItem('user');
+          window.location.href = '/login';
+      }
+    })
+  }
+}, []);
 
 
   React.useEffect(() => {
     // Initial mock data
+
+    $.ajax({
+      url: api_url+'site_api.php',
+      method: 'GET',
+      data: {
+        action:"get_views"
+      },
+      success: (response) => {
+        console.log(response.data);
+          setViews(response.data);
+      },
+      error: (err) => { console.log(err); }
+          
+    });
     if (projects.length > 0) return;
     $.ajax({
-      url: ''+api_url+'project_api.php',
+      url: api_url+'project_api.php',
       method: 'GET',
       dataType: 'json',
       data: {
@@ -355,9 +397,9 @@ const Dashboard = () => {
         <h1>VISITES</h1>
         <Col className='graph'>
           <ResponsiveContainer>
-            <LineChart data={[{date:"janvier-2025",visites:10},{date:"février-2025",visites:30},{date:"mars-2025",visites:20},{date:"avril-2025",visites:50},{date:"mai-2025",visites:40}]}>
+            <LineChart data={views}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
+              <XAxis dataKey="mois" />
               <YAxis />
               <Tooltip />
               <Line type="monotone" dataKey="visites" stroke="#8884d8" strokeWidth={2} />
@@ -545,6 +587,7 @@ const Dashboard = () => {
 
         </div>
       )}
+      <span><Logout id="logout-icon" onClick={() => {localStorage.removeItem('user'); window.location.href = '/login';}} /></span>
     </div>
   );
 };
