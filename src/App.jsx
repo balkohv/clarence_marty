@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from './components/navbar/Navbar';
 import Dashboard from './components/admin/dashboard.jsx';
 import Login from './components/users/login.jsx';
+import ForgotPassword from './components/users/forgot_password.jsx';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           { <Route path="/projects" element={<Projects />} /> }
           { <Route path="/admin" element={<Dashboard />} />}
           { <Route path="/login" element={<Login />} />}
+          { <Route path="/reset_password" element={<ForgotPassword />} />}
         </Routes>
       </BrowserRouter>
       <Col className={`filter ${modalIsActive?"active":""}`} onClick={show_modal}>

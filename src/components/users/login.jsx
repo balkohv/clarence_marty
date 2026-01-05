@@ -6,10 +6,10 @@ const api_url = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   
-  const [login, setLogin] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState(null);
-    const [loading, setLoading] = React.useState(false);
+    const [login, setLogin] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [error, setError] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,6 +39,37 @@ const Login = () => {
         });
     }
 
+    const handleForgotPassword = () => {
+        setError(null);
+        setLoading(true);
+        if(!login){
+            setLoading(false);
+            setError('Please enter your login to recover password.');
+            return;
+        }
+        $.ajax({
+            url: ''+api_url+'user_api.php',
+            method: 'POST',
+            data: {
+                action: "password_recovery",
+                login: login
+            },
+            success: (response) => {
+                if(response.status_code === 200) {
+                    alert('Password reset link sent to your email.');
+                    setLoading(false);
+                } else {
+                    setError(response.message || 'Request failed');
+                    setLoading(false);
+                }
+            },
+            error: () => {
+                setError('An error occurred. Please try again.');
+                setLoading(false);
+            }
+        });
+    }
+
     return (
         <div className="login-container">
             <h2>Login</h2>
@@ -49,6 +80,7 @@ const Login = () => {
                 <div>
                     <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>
+                <a onClick={handleForgotPassword}>mot de passe oublié</a>
                 {error && <div className="error-message">{error}</div>}
                 <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
             </form>

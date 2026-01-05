@@ -45,6 +45,7 @@ const Dashboard = () => {
   const [types, setTypes] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
   const [views, setViews] = React.useState([]);
+  const [logoWall, setLogoWall] = React.useState([]);
 
   
 useEffect(() => {
@@ -90,6 +91,19 @@ useEffect(() => {
       error: (err) => { console.log(err); }
           
     });
+
+    $.ajax({
+      url: api_url+'site_api.php',
+      method: 'GET',
+      data: {
+        action:"get_logos"
+      },
+      success: (response) => {
+          setLogoWall(response.data);
+      },
+      error: (err) => { console.log(err); }
+    });
+
     if (projects.length > 0) return;
     $.ajax({
       url: api_url+'project_api.php',
@@ -543,6 +557,57 @@ useEffect(() => {
           <Col className='preview' lg={5} md={12}>
             {selProject && <Item project={selProject} isAdmin={true} />}
           </Col>
+        </Row>
+        <Row className='logo-wall-container'>
+          <h1>Mur de logo</h1>
+          <div className='logo-wall-edit'>
+            {logoWall.map((logo, index) => (
+              <div key={index} className='logo-item'>
+                <img src={api_url + "/uploads/" + logo.logo} alt={`Logo ${index}`} />
+                <button onClick={() => {
+                  setLogoWall(prev => prev.filter((_, i) => i !== index));
+                  $.ajax({
+                    url: ''+api_url+'site_api.php',
+                    method: 'DELETE',
+                    data: JSON.stringify({ 
+                      action: "delete_logo",
+                      logo_id: logo.logo_id,
+                    }),
+                    error: function(err) {
+                      console.error('Error deleting logo:', err);
+                    }
+                  });
+                }}>Supprimer</button>
+              </div>
+            ))}
+            <div className='logo-item add-logo'>
+              <button onClick={() => document.getElementById("new-logo").click()}>
+                + Ajouter un logo
+              </button>
+              <input type="file" id='new-logo' onChange={e => {
+                const file = e.target.files[0];
+                if (file) {
+                  const formData = new FormData();
+                  formData.append("action", "add_logo");
+                  formData.append("logo", file);
+                  $.ajax({
+                    url: ''+api_url+'site_api.php',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        console.log('Logo added successfully:', data);
+                        setLogoWall(prev => [...prev, { id: data.data.id, logo: data.data.logo }]);
+                    },
+                    error: function(err) {
+                      console.error('Error adding logo:', err);
+                    }
+                  });
+                }
+              }} />
+            </div>
+          </div>
         </Row>
       </Row>
       {showModal && (

@@ -109,7 +109,7 @@ td:last-child {
 }
 
 .logo-wall-section img{
-  width: 16vw;
+  height:300px;
 }
 
 .logo-wall-section tr{
@@ -135,6 +135,7 @@ td:last-child {
   flex-wrap: wrap;
   justify-content: center;
   padding: 0px 5vw;
+  flex:1;
 }
 
 .contact-section{

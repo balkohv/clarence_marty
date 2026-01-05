@@ -1,6 +1,7 @@
 import "./About-me.css";
 import { use, useEffect } from "react";
-import { useRef } from "react";
+import {useState} from 'react';
+import React from "react";
 import Navbar from '../navbar/Navbar'
 import Footer from '../footer/Footer';
 import { Col, Row } from 'react-bootstrap';
@@ -9,14 +10,14 @@ import clarence from '../../assets/clarence.png';
 import instagram from '../../assets/instagram.png';
 import mail from '../../assets/mail.png';
 import telephone from '../../assets/telephone.png';
-import * as logo from '../../assets/logos';
 import Downarrow from '../../assets/SVG/Downarrow.svg?react';
 import $ from 'jquery';
 
 const AboutMe = ({isServices}) => {
-    const servicesRef = useRef(null);
-    const AboutRef = useRef(null);
+    const servicesRef = React.useRef(null);
+    const AboutRef = React.useRef(null);
     const api_url = import.meta.env.VITE_API_URL;
+    const [logos, setLogos] = React.useState([]);
 
     useEffect(() => {
         if (localStorage.getItem('firstVisite') == null){
@@ -27,6 +28,21 @@ const AboutMe = ({isServices}) => {
                 error: (err) => { console.log(err); }
             });
         }
+        $.ajax({
+            url: ''+api_url+'site_api.php',
+            method: 'GET',
+            data: {
+                action: "get_logos"
+            },
+            success: (response) => {
+                if(response.status_code === 200) {
+                    setLogos(response.data);
+                }
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
     }, []);
 
     const scrollToServices = () => {
@@ -106,6 +122,10 @@ const AboutMe = ({isServices}) => {
             <Row className='logo-wall-section'>
             <h1>Ils m'ont fait confiance</h1>
                 <div className="logo-wall">
+                    {logos.map((logo_item, index) => (
+                        <img key={index} src={api_url+"uploads/"+logo_item.logo} alt={logo_item.logo} />
+                    ))}{/* 
+                    <img src={logo.logo1} alt="Red Bull" />
                     <img src={logo.logo2} alt="GoPro" />
                     <img src={logo.logo3} alt="Specialized" />
                     <img src={logo.logo4} alt="Trek" />
@@ -113,7 +133,7 @@ const AboutMe = ({isServices}) => {
                     <img src={logo.logo6} alt="Shimano" />
                     <img src={logo.logo7} alt="Continental" />
                     <img src={logo.logo8} alt="Oakley" />
-                    <img src={logo.logo9} alt="Monster Energy" />
+                    <img src={logo.logo9} alt="Monster Energy" /> */}
                 </div>
             </Row>
             <Row className='contact-section'>
