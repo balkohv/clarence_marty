@@ -9,10 +9,45 @@ import Navbar from './components/navbar/Navbar';
 import Dashboard from './components/admin/dashboard.jsx';
 import Login from './components/users/login.jsx';
 import ForgotPassword from './components/users/forgot_password.jsx';
+import $ from "jquery";
 
 function App() {
 
   const [modalIsActive,setModalIsActive] = React.useState(false);
+  const [loading,setLoading]=React.useState("idle");
+      const [message,setMessage]=React.useState(null);
+      const [error,setError]=React.useState(null);
+      
+      const api_url = import.meta.env.VITE_API_URL;
+  
+      const handleSubmit=(e)=> {
+          e.preventDefault();
+          setLoading("loading");
+          setMessage(null);
+          setError(null);
+          $.ajax({
+              url: ''+api_url+'site_api.php',
+              method: 'POST',
+              data: {
+                  action:"send_report",
+                  email: e.target[0].value,
+                  phone: e.target[1].value,
+                  desc: e.target[2].value,
+              },
+              success: function(data) {
+                  setLoading("success");
+                  setMessage("Message envoyé avec succès");
+                  setTimeout(() =>{ setLoading("idle");show_modal();}, 1500);
+                  
+              },
+              error: function(err) {
+                  setLoading("error");
+                  setError("Erreur lors de l'envoi du message");
+                  setTimeout(() => setLoading("idle"), 2000);
+              }
+          });
+      }
+  
 
   const show_modal = () => {
     setModalIsActive(!modalIsActive);
@@ -37,15 +72,43 @@ function App() {
                   <h4>Une envie, une idée ?</h4>
                   <h4>Contactez moi pour en discuter et donner vie à votre projet !</h4>
               </Row>
-              <Row className="contact-content">
-                <div>
-                  <input type="text" placeholder="Adresse Email" />
-                  <input type="text" placeholder="Numéro de téléphone"/>
-                </div>
-                <textarea placeholder="Parlez moi de vos envies, attentes ou questions"></textarea>
-                <div className='btn-container'>
-                  <button className="btn submit">Envoyer</button>
-                </div>
+              <Row>
+                <form onSubmit={handleSubmit} className="contact-content">
+                  <div>
+                    <input type="text" placeholder="Adresse Email" />
+                    <input type="text" placeholder="Numéro de téléphone"/>
+                  </div>
+                  <textarea placeholder="Parlez moi de vos envies, attentes ou questions"></textarea>
+                  <div className='btn-container'>
+                    <button className="btn submit">Envoyer</button>
+                  </div>
+                </form>
+                {loading !== "idle" && (
+                  <div className={`saving-overlay ${loading}`}>
+                    
+                    {loading === "loading" && (
+                      <>
+                        <div className="loader"></div>
+                        <p>envoi en cours…</p>
+                      </>
+                    )}
+
+                    {loading === "success" && (
+                      <>
+                        <div className="icon success">✓</div>
+                        <p>Envoyé !</p>
+                      </>
+                    )}
+
+                    {loading === "error" && (
+                      <>
+                        <div className="icon error">✕</div>
+                        <p>Erreur de sauvegarde</p>
+                      </>
+                    )}
+
+                  </div>
+                )}
               </Row>
               <Row className="contact-footer">
                   <Footer/>
