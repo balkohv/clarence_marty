@@ -4,31 +4,29 @@ import Moon from '../../assets/SVG/Moon.svg?react';
 import Sun from '../../assets/SVG/Sun.svg?react';
 
 
-const Navbar = ({ page,show_modal}) => {
+const Navbar = ({ show_modal}) => {
 
+  const [page, setPage] = useState("");
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [theme, setTheme] = useState(() => {
-
     const saved = localStorage.getItem("theme");
     if (saved) return saved;
-
     return window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
   });
 
   
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-
+  const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 
   useEffect(() => {
+    setPage(window.location.pathname === "/" ? "about" : window.location.pathname.slice(1));
     document.body.classList.toggle("dark", theme === "dark");
     document.body.classList.toggle("light", theme === "light");
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {

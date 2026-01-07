@@ -4,7 +4,7 @@ import About from './components/about-me/about-me.jsx';
 import Projects from './components/projects/Projects.jsx';
 import { Col,Row } from "react-bootstrap";
 import Footer from "./components/footer/Footer"
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Navbar from './components/navbar/Navbar';
 import Dashboard from './components/admin/dashboard.jsx';
 import Login from './components/users/login.jsx';
@@ -15,39 +15,41 @@ function App() {
 
   const [modalIsActive,setModalIsActive] = React.useState(false);
   const [loading,setLoading]=React.useState("idle");
-      const [message,setMessage]=React.useState(null);
-      const [error,setError]=React.useState(null);
-      
-      const api_url = import.meta.env.VITE_API_URL;
+  const [message,setMessage]=React.useState(null);
+  const [error,setError]=React.useState(null);
   
-      const handleSubmit=(e)=> {
-          e.preventDefault();
-          setLoading("loading");
-          setMessage(null);
-          setError(null);
-          $.ajax({
-              url: ''+api_url+'site_api.php',
-              method: 'POST',
-              data: {
-                  action:"send_report",
-                  email: e.target[0].value,
-                  phone: e.target[1].value,
-                  desc: e.target[2].value,
-              },
-              success: function(data) {
-                  setLoading("success");
-                  setMessage("Message envoyé avec succès");
-                  setTimeout(() =>{ setLoading("idle");show_modal();}, 1500);
-                  
-              },
-              error: function(err) {
-                  setLoading("error");
-                  setError("Erreur lors de l'envoi du message");
-                  setTimeout(() => setLoading("idle"), 2000);
-              }
-          });
-      }
+  const api_url = import.meta.env.VITE_API_URL;
+
   
+
+  const handleSubmit=(e)=> {
+      e.preventDefault();
+      setLoading("loading");
+      setMessage(null);
+      setError(null);
+      $.ajax({
+          url: ''+api_url+'site_api.php',
+          method: 'POST',
+          data: {
+              action:"send_report",
+              email: e.target[0].value,
+              phone: e.target[1].value,
+              desc: e.target[2].value,
+          },
+          success: function(data) {
+              setLoading("success");
+              setMessage("Message envoyé avec succès");
+              setTimeout(() =>{ setLoading("idle");show_modal();}, 1500);
+              
+          },
+          error: function(err) {
+              setLoading("error");
+              setError("Erreur lors de l'envoi du message");
+              setTimeout(() => setLoading("idle"), 2000);
+          }
+      });
+  }
+
 
   const show_modal = () => {
     setModalIsActive(!modalIsActive);
@@ -58,7 +60,7 @@ function App() {
     <Navbar page="projects" show_modal={show_modal}></Navbar>
       <BrowserRouter>
         <Routes>
-          { <Route path="/" element={<About isServices={0}/>} /> }
+          { <Route path="/" element={<About isServices={0} />} /> }
           { <Route path="/services" element={<About isServices={1}/>} /> }
           { <Route path="/projects" element={<Projects />} /> }
           { <Route path="/admin" element={<Dashboard />} />}

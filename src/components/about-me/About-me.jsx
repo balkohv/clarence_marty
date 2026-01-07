@@ -7,9 +7,9 @@ import Footer from '../footer/Footer';
 import { Col, Row } from 'react-bootstrap';
 import clarence_forest from '../../assets/clarence_forest.png';
 import clarence from '../../assets/clarence.png';
-import instagram from '../../assets/instagram.png';
-import mail from '../../assets/mail.png';
-import telephone from '../../assets/telephone.png';
+import Instagram from '../../assets/SVG/instagram.svg?react';
+import Mail from '../../assets/SVG/email.svg?react';
+import Telephone from '../../assets/SVG/telephone.svg?react';
 import Downarrow from '../../assets/SVG/Downarrow.svg?react';
 import $ from 'jquery';
 
@@ -142,9 +142,9 @@ const AboutMe = ({isServices}) => {
 
                 <p>Une envie, une idée</p>
                 <p>Contactez moi pour en discuter et donner vie a votre projet !</p>
-                <p><img src={mail} alt="mail logo" /><a href="mailto:martyc1812@gmail.com" className="contact-button">martyc1812@gmail.com</a></p>
-                <p><img src={telephone} alt="mail logo" />07 80 45 51 92</p>
-                <p><img src={instagram} alt="mail logo" />clarence_marty</p>
+                <p><Mail/><a href="mailto:martyc1812@gmail.com" className="contact-button">martyc1812@gmail.com</a></p>
+                <p><Telephone/>07 80 45 51 92</p>
+                <p><Instagram/>clarence_marty</p>
             </Col>
             <Col xs={8} className="contact-img">
                 <img src={clarence} alt="Clarence marty" />
