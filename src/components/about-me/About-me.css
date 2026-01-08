@@ -95,7 +95,7 @@ tr{
 }
 
 td{
-  padding:0px 50px;
+  width: 50% !important;
 }
 
 td:first-child {
@@ -227,7 +227,7 @@ td:last-child {
   }
 
   .services-section{
-    padding: 0px 40px;
+    padding: 0px 10px;
   }
   
   tbody{
@@ -250,4 +250,9 @@ td:last-child {
   .contact-text{
     padding: 40px;
   }
+
+  .logo-wall-section img {
+      height: 100px;
+  }
+
 }

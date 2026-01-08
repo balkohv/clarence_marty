@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css'
-import About from './components/about-me/about-me.jsx';
+import About from './components/about-me/About-me.jsx';
 import Projects from './components/projects/Projects.jsx';
 import { Col,Row } from "react-bootstrap";
 import Footer from "./components/footer/Footer"
 import React, { use, useEffect, useState } from "react";
 import Navbar from './components/navbar/Navbar';
-import Dashboard from './components/admin/dashboard.jsx';
+import Dashboard from './components/admin/Dashboard.jsx';
 import Login from './components/users/login.jsx';
-import ForgotPassword from './components/users/forgot_password.jsx';
+import ForgotPassword from './components/users/Forgot_password.jsx';
 import $ from "jquery";
 
 function App() {

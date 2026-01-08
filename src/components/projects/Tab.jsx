@@ -37,8 +37,8 @@ const Tab = ({ category, position, isActive, projects }) => {
   return (
     <div className={`tab-container ${position} ${isActive ? "active" : ""}`} id={category}>
       <div className="tab-info">
-        <h2>Mes projets dans l’univers du {category}</h2>
-        <h3>Découvrez ma passion</h3>
+        <h2>{category}</h2>
+        <h3>Mes réalisations</h3>
       </div>
       <div className="items-container">
         {projects.map((project, index) => (

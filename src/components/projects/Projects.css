@@ -150,7 +150,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  font-size: x-large;
+  font-size: 1em;
 }
 
 .preview-item .video-container video{
@@ -302,4 +302,20 @@
   .category-card h2{
     font-size: small;
   }
+
+  .preview-item .video-container video {
+    height: 90%;
+    transition: transform 0.5s ease;
+  }
+
+  .tab-info {
+    height: 18vh; 
+  }
+}
+
+@media (max-width:400px){
+      .preview-item .preview-text {
+        font-size: 0.5em !important;
+        width: auto;
+    }
 }

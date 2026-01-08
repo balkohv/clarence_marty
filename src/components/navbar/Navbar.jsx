@@ -17,8 +17,13 @@ const Navbar = ({ show_modal}) => {
       : "light";
   });
 
+  const goToHome = () => {
+    window.location.href = "/";
+  }
+
   
   const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+
 
   useEffect(() => {
     setPage(window.location.pathname === "/" ? "about" : window.location.pathname.slice(1));
@@ -45,7 +50,7 @@ const Navbar = ({ show_modal}) => {
   return (
     <div id="navbar-container" className={`navbar-${visible ? "visible" : "hidden"}`}>
       <div id="logo-container">
-        <h1 id="logo">CLARENCE MARTY</h1>
+        <h1 id="logo" onClick={goToHome}>CLARENCE MARTY</h1>
       </div>
 
       <div id="tabs-container">

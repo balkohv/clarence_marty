@@ -3,7 +3,7 @@ import Logout from '../../assets/SVG/Logout.svg?react';
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import Item from '../projects/Item-edit.jsx';
-import SlideEdit from './slide-edit.jsx';
+import SlideEdit from './Slide-edit.jsx';
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
 import {
@@ -611,8 +611,8 @@ useEffect(() => {
         </Row>
       </Row>
       {showModal && (
-        <div className="modal-backdrop">
-          <div className="modal-content">
+        <div className="modal-backdrop" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             
             <h2>Ajouter une catégorie</h2>
             <input type="text" id="new-category" placeholder="Nom de la catégorie" />

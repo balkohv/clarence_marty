@@ -627,12 +627,12 @@ input[type="file"]{
 .modal-content{
   background-color: var(--lighter-background);
   border-radius: 10px;
-  width: 500px;
-  height: 300px;
+  padding:20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   justify-content: center;
+  align-items: center;
 }
 
 .modal-content input{
@@ -640,10 +640,6 @@ input[type="file"]{
   margin: 10px;
   padding: 10px;
   border-radius: 5px;
-}
-
-.modal-content button{
-  width: 20%;
 }
 
 #logout-icon{
@@ -680,6 +676,7 @@ input[type="file"]{
 .logo-wall-edit{
   display:flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
@@ -743,5 +740,9 @@ input[type="file"]{
   .preview-item .preview-text{
     font-size: x-small;
     width: auto;
+  }
+
+  .logo-item img{
+    height: 50px;
   }
 }

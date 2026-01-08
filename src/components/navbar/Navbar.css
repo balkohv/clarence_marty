@@ -55,6 +55,7 @@
 
 #logo{
     font-size: 5vh;
+    cursor:pointer;
 }
 
 #tabs-container{
@@ -139,11 +140,35 @@ svg.active{
     display: block !important;
 }
 
+@media (max-width:1290px){
+    #tabs-container{
+        width: 60%;
+    }
+}
+
+@media (max-width:1200px){
+
+    #tabs-container {
+        width: 90%;
+    }
+
+    #navbar-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    #logo-container {
+        display:none;
+        margin-left: 12px;
+    }
+}
+
+
 
 /* =========================
-   MOBILE (≤ 768px)
+   MOBILE (≤ 770px)
 ========================= */
-@media (max-width: 768px) {
+@media (max-width: 770px) {
 
     #navbar-container {
         height: 60px; /* vh = instable sur mobile */
@@ -153,27 +178,68 @@ svg.active{
         justify-content: center;
     }
 
-    #logo-container {
-        display:none;
-        margin-left: 12px;
-    }
-
-    #logo {
-        font-size: 15px;
-    }
-
     #tabs-container {
         width: 100%;
         gap: 16px;
         padding-right: 12px;
-        font-size: 15px;
+        font-size: 1em;;
         display: flex;
         justify-content: center;
     }
 
     #contact {
         padding: 6px 12px;
-        font-size: 10px;
+        font-size: 0.8em;
+    }
+
+    #contact:hover {
+        font-size: 11px;
     }
 }
 
+@media (max-width: 440px) {
+
+    #navbar-container {
+        height: 55px; /* vh = instable sur mobile */
+        margin-top: 12px;
+        border-radius: 10px;
+    }
+
+    #tabs-container {
+        gap: 12px;
+        font-size: 0.8em;
+        padding-right: 10px;
+    }
+
+    #contact {
+        font-size: 0.8em;
+    }
+
+    #contact:hover {
+        font-size: 1em;
+    }
+}
+
+
+@media (max-width: 350px) {
+
+    #navbar-container {
+        height: 50px; /* vh = instable sur mobile */
+        margin-top: 10px;
+        border-radius: 10px;
+    }
+
+    #tabs-container {
+        gap: 8px;
+        font-size: 0.7em;
+        padding-right: 8px;
+    }
+
+    #contact {
+        font-size: 0.8em;
+    }
+
+    #contact:hover {
+        font-size: 0.5em;
+    }
+}

@@ -24,6 +24,9 @@ const AboutMe = ({isServices}) => {
             $.ajax({
                 url: api_url+'site_api.php',
                 method: 'GET',
+                data:{
+                    action: "add_view"
+                },
                 success: (response) => {localStorage.setItem('firstVisite', 'true'); },
                 error: (err) => { console.log(err); }
             });

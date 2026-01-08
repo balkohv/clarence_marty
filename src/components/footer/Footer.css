@@ -43,6 +43,12 @@
 @media (max-width: 768px) {
     
     #footer-container p{
-    font-size: x-small !important;
+        font-size: x-small !important;
+    }
+}
+
+@media (max-width: 400px) {
+    #footer-container p {
+        font-size: 0.5em !important;
     }
 }
