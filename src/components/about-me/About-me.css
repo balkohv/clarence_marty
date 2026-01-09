@@ -63,6 +63,8 @@
 
 .about-me-section {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding-top:5vh;
 }
 
@@ -186,8 +188,23 @@ td:last-child {
 
 .about-me_container{
     width:100%;
-  }
+}
 
+.about-me-image img{
+  float: right;
+  height: 100vh;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: center;
+  aspect-ratio: 4 / 5;
+
+}
+
+@media(max-width: 1440px){
+  .about-me-image img{
+    height: 50vw;
+  }
+}
 
 @media (max-width: 768px) {
   .video-title h1 {
@@ -221,13 +238,9 @@ td:last-child {
     aspect-ratio: 4 / 5;
 
   }
-
-  .about-me-section{
-    align-items: center;
-  }
-
+  
   .services-section{
-    padding: 0px 10px;
+    padding: 0px 30px;
   }
   
   tbody{
@@ -255,4 +268,23 @@ td:last-child {
       height: 100px;
   }
 
+}
+
+@media (max-width:600px){
+  tr{
+    flex-direction: column;
+    align-content: flex-start;
+  }
+
+  td{
+    width:auto !important;
+  }
+
+  .contact-section{
+    flex-direction: column;
+  }
+
+  .contact-text p{
+    margin-top:0px !important;
+  }
 }

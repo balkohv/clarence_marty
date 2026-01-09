@@ -140,13 +140,13 @@ svg.active{
     display: block !important;
 }
 
-@media (max-width:1290px){
+@media (max-width:1430px){
     #tabs-container{
         width: 60%;
     }
 }
 
-@media (max-width:1200px){
+@media (max-width:1250px){
 
     #tabs-container {
         width: 90%;

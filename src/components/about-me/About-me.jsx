@@ -107,16 +107,16 @@ const AboutMe = ({isServices}) => {
                 <table>
                 <tbody>
                     <tr>
-                    <td><h2>Pré-production</h2></td>
-                    <td>Capturer l'émotion et l'instant avec des vidéos dynamiques et cinématographiques, parfaites pour valoriser votre projet, votre marque ou votre événement.</td>
+                        <td><h2>Pré-production</h2></td>
+                        <td>Capturer l'émotion et l'instant avec des vidéos dynamiques et cinématographiques, parfaites pour valoriser votre projet, votre marque ou votre événement.</td>
                     </tr>
                     <tr>
-                    <td><h2>Tournage</h2></td>
-                    <td>Des images qui marquent les esprits : portraits, reportages, produits ou événements, chaque cliché raconte une histoire unique.</td>
+                        <td><h2>Tournage</h2></td>
+                        <td>Des images qui marquent les esprits : portraits, reportages, produits ou événements, chaque cliché raconte une histoire unique.</td>
                     </tr>
                     <tr>
-                    <td><h2>Post-Production</h2></td>
-                    <td>Des vidéos qui captivent et donnent du rythme. Clips, interviews, reportages ou publicités, chaque montage sublime vos images et transmet un message fort.</td>
+                        <td><h2>Post-Production</h2></td>
+                        <td>Des vidéos qui captivent et donnent du rythme. Clips, interviews, reportages ou publicités, chaque montage sublime vos images et transmet un message fort.</td>
                     </tr>
                 </tbody>
             </table>

@@ -72,6 +72,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                     <h3>{project.preview.subtitle}</h3>
                     <p>{project.preview.description}</p>
                 </Col>
+                <Row className='down'><span>^</span></Row>
             </div>
             <Row className={`slides-container ${isSlideActive==project_index ? 'active-slide' : ''}`} ref={projectRef}>
                 {slides}
