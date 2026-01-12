@@ -6,7 +6,7 @@ import Navbar from '../navbar/Navbar'
 import Footer from '../footer/Footer';
 import { Col, Row } from 'react-bootstrap';
 import clarence_forest from '../../assets/clarence_forest.png';
-import clarence from '../../assets/clarence.png';
+import clarence from '../../assets/clarence.jpg';
 import Instagram from '../../assets/SVG/instagram.svg?react';
 import Mail from '../../assets/SVG/email.svg?react';
 import Telephone from '../../assets/SVG/telephone.svg?react';
@@ -108,15 +108,19 @@ const AboutMe = ({isServices}) => {
                 <tbody>
                     <tr>
                         <td><h2>Pré-production</h2></td>
-                        <td>Capturer l'émotion et l'instant avec des vidéos dynamiques et cinématographiques, parfaites pour valoriser votre projet, votre marque ou votre événement.</td>
+                        <td>Chaque projet commence par une idée. J’en façonne le récit, l’univers visuel et l’intention pour poser les bases d’un tournage fluide et créatif.</td>
                     </tr>
                     <tr>
                         <td><h2>Tournage</h2></td>
-                        <td>Des images qui marquent les esprits : portraits, reportages, produits ou événements, chaque cliché raconte une histoire unique.</td>
+                        <td>Avec un oeil créatif et du matériel professionnel, je capture chaque image avec soin pour donner vie à votre histoire et retranscrire toute l'émotion de votre message</td>
                     </tr>
                     <tr>
                         <td><h2>Post-Production</h2></td>
-                        <td>Des vidéos qui captivent et donnent du rythme. Clips, interviews, reportages ou publicités, chaque montage sublime vos images et transmet un message fort.</td>
+                        <td>Montage, étalonnage, sound design : je façonne le rendu final pour offrir une vidéo fluide, impactante et fidèle à votre identité.</td>
+                    </tr>
+                    <tr>
+                        <td><h2>Photographie</h2></td>
+                        <td>Des images qui marquent les esprits : portraits, reportages, produits ou événements, chaque cliché raconte une histoire unique.</td>
                     </tr>
                 </tbody>
             </table>
@@ -147,7 +151,7 @@ const AboutMe = ({isServices}) => {
                 <p>Contactez moi pour en discuter et donner vie a votre projet !</p>
                 <p><Mail/><a href="mailto:martyc1812@gmail.com" className="contact-button">martyc1812@gmail.com</a></p>
                 <p><Telephone/>07 80 45 51 92</p>
-                <p><Instagram/>clarence_marty</p>
+                <p><a href="https://www.instagram.com/clarence_marty/" target="_blank"><Instagram/>clarence_marty</a></p>
             </Col>
             <Col xs={8} className="contact-img">
                 <img src={clarence} alt="Clarence marty" />

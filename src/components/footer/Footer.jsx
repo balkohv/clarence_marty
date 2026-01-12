@@ -9,9 +9,9 @@ const Footer = () => {
             <div id='footer-contact-text'>
                 <p><img src={mail} alt="mail logo" /><a href="mailto:martyc1812@gmail.com" className="contact-button">martyc1812@gmail.com</a></p>
                 <p><img src={telephone} alt="mail logo" />07 80 45 51 92</p>
-                <p><img src={instagram} alt="mail logo" />clarence_marty</p>
+                <p><a href="https://www.instagram.com/clarence_marty/" target="_blank"><img src={instagram} alt="mail logo" />clarence_marty</a></p>
             </div>
-            <p>© 2024 Clarence Marty. Tous droits réservés.</p>
+            <p>© {new Date().getFullYear()} Clarence Marty. Tous droits réservés. <a href="/privacy">Mentions légales</a></p>
         </div>
     );
 };

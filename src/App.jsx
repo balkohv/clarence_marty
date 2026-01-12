@@ -9,6 +9,7 @@ import Navbar from './components/navbar/Navbar';
 import Dashboard from './components/admin/Dashboard.jsx';
 import Login from './components/users/login.jsx';
 import ForgotPassword from './components/users/Forgot_password.jsx';
+import Privacy from './components/mentions-legales/mentions-legales.jsx';
 import $ from "jquery";
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
           { <Route path="/admin" element={<Dashboard />} />}
           { <Route path="/login" element={<Login />} />}
           { <Route path="/reset_password" element={<ForgotPassword />} />}
+          { <Route path="/privacy" element={<Privacy />} />}
         </Routes>
       </BrowserRouter>
       <Col className={`filter ${modalIsActive?"active":""}`} onClick={show_modal}>

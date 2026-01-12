@@ -301,10 +301,10 @@
   scale: 1.5;
   color: #000000;
   transition: all 0.3s ease;
-  animation: bounce 1s;
+  animation: bounce_projects 1s;
 
 }
-@keyframes bounce {
+@keyframes bounce_projects {
   0%, 20%, 50%, 80%, 100% {
     transform:  translateY(0);
   }
