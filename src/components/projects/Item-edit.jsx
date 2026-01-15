@@ -23,6 +23,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
     const slides_render = (slide, index) => {
         switch (slide.type) {
             case "image":
+                console.log(project.slides);
                 return (
                     <Row key={index} xs="12" className={`slide-item image-slide ${slide.text_loc}`}>
                         <img src={slide.background_preview?slide.background_preview : api_url + "/uploads/" + slide.background}  alt={`Slide ${index + 1}`} />
@@ -36,7 +37,13 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                         <img src={api_url+"/uploads/"+(slide.background!=""?slide.background:null)}  alt={`Carrousel Background`} className="carrousel-background" />
                         <div className="carrousel">
                             {slide.images.map((image, imgIndex) => (
-                                <img key={image.image_id} src={image.image_preview?image.image_preview:api_url+"/uploads/"+image.image}  alt={`Carrousel Image ${imgIndex + 1}`} />
+                                image.image && image.image.toLowerCase().endsWith('.mp4') ? (
+                                    <video key={image.image_id} autoPlay muted loop playsInline>
+                                        <source src={image.image_preview?image.image_preview:api_url+"/uploads/"+image.image} type="video/mp4" />
+                                    </video>
+                                ) : (
+                                    <img key={image.image_id} src={image.image_preview?image.image_preview:api_url+"/uploads/"+image.image}  alt={`Carrousel Image ${imgIndex + 1}`} />
+                                )
                             ))}
                         </div>
                     </Row>

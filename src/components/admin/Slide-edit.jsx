@@ -164,7 +164,13 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                       }
                     } }/>
                     <div className="carroussel-image-container">
-                      <img src={image.image_preview?image.image_preview:api_url+"/uploads/"+image.image} alt="" />
+                      {image.image && image.image.toLowerCase().endsWith('.mp4') ? (
+                        <video autoPlay muted loop playsInline controls preload="none">
+                          <source src={image.image_preview?image.image_preview:api_url+"/uploads/"+image.image} type="video/mp4" />
+                        </video>
+                      ) : (
+                        <img src={image.image_preview?image.image_preview:api_url+"/uploads/"+image.image} alt="" />
+                      )}
                       <div className="delete-image" onClick={() => {deleteImageApi(image.image_id);editImage(projectId, slide.slide_id, image.image_id, { archived: 1 });}} title="Supprimer l'image">
                         X
                       </div>

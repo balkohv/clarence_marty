@@ -130,10 +130,11 @@ useEffect(() => {
               stats:
               {
                   views: raw_project.views,
-                  archived: raw_project.archived === "1" ? true : false,
+                  archived: raw_project.archived ? true : false,
               },
               slides: raw_project.slides,
             }
+            console.log(project,raw_project);
             setProjectsList(prev => [...prev, project]);
             setSelProject(project);
           }
