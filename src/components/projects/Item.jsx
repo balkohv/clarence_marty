@@ -36,7 +36,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                         <div className="carrousel">
                             {slide.images.map((image, imgIndex) => (
                                 image.image && image.image.toLowerCase().endsWith('.mp4') ? (
-                                    <video key={image.image_id} autoPlay muted loop playsInline>
+                                    <video key={image.image_id} controls autoPlay muted loop playsInline>
                                         <source src={api_url+"/uploads/"+(image.image!=""?image.image:null)}type="video/mp4" />
                                     </video>
                                 ) : (
@@ -74,9 +74,9 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                     </video>
                 </Col>
                 <Col xs="6" className="preview-text">
-                    <h2><i>{project.preview.title}</i></h2>
-                    <h3>{project.preview.subtitle}</h3>
-                    <p>{project.preview.description}</p>
+                    {project.preview.title && <h2><i>{project.preview.title}</i></h2>}
+                    {project.preview.subtitle && <h3>{project.preview.subtitle}</h3>}
+                    {project.preview.description && <p>{project.preview.description}</p>}
                 </Col>
                 <Row className='down'><span>^</span></Row>
             </div>

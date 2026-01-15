@@ -153,6 +153,12 @@
   font-size: 1em;
 }
 
+.preview-text h2, .preview-text h3{
+  background: #ffffff85;
+  padding: 5px;
+  border-radius: 7px;
+}
+
 .preview-item .video-container video{
   border-radius: 20px;
   width: auto;

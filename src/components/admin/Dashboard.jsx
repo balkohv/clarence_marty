@@ -48,37 +48,44 @@ const Dashboard = () => {
   const [logoWall, setLogoWall] = React.useState([]);
 
   
-useEffect(() => {
-  if(localStorage.getItem("user")==null){
-      console.log("no user");
-      window.location.href = '/login';
-  }else{
-    $.ajax({
-      url:api_url+'user_api.php',
-      method: 'POST',
-      data: {
-          action: "is_user",
-          id: JSON.parse(localStorage.getItem("user"))
-      },
-      success: (response) => {
-          if(response.status_code !== 200) {
-              localStorage.removeItem('user');
-              window.location.href = '/login'; 
-          }
-      },
-      error: () => {
-          localStorage.removeItem('user');
-          window.location.href = '/login';
-      }
-    })
-  }
-}, []);
+  useEffect(() => {
+  if (!selProject) return;
 
+  const updated = projects.find(p => p.id === selProject.id);
+  if (updated) setSelProject(updated);
+  }, [projects]);
 
-  React.useEffect(() => {
-    // Initial mock data
-    get_data();
+  useEffect(() => {
+    if(localStorage.getItem("user")==null){
+        console.log("no user");
+        window.location.href = '/login';
+    }else{
+      $.ajax({
+        url:api_url+'user_api.php',
+        method: 'POST',
+        data: {
+            action: "is_user",
+            id: JSON.parse(localStorage.getItem("user"))
+        },
+        success: (response) => {
+            if(response.status_code !== 200) {
+                localStorage.removeItem('user');
+                window.location.href = '/login'; 
+            }
+        },
+        error: () => {
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+        }
+      })
+    }
   }, []);
+
+
+    React.useEffect(() => {
+      // Initial mock data
+      get_data();
+    }, []);
 
   const get_data=()=>{
     $.ajax({
@@ -265,59 +272,47 @@ useEffect(() => {
 
 
   const editSlide = (projectId, slideId, updatedFields) => {
-    setProjectsList(prevProjects =>
-        prevProjects.map(project => {
-        if (project.id !== projectId) return project;
+  setProjectsList(prev =>
+    prev.map(project => {
+      if (project.id !== projectId) return project;
 
-        if (slideId === "preview") {
-            return {
-            ...project,
-            preview: { ...project.preview, ...updatedFields }
-            };
-        }
-
-        if (slideId === "archived") {
-            return {
-            ...project,
-            stats: { ...project.stats, ...updatedFields }
-            };
-        }
-
-        if (slideId === "projet") {
-          return {
-            ...project,
-            ...updatedFields
-          };
-        }
-
-
+      if (slideId === "preview") {
         return {
-            ...project,
-            slides: project.slides.map(slide =>
-            slide.slide_id === slideId ? { ...slide, ...updatedFields } : slide
-            )
+          ...project,
+          preview: { ...project.preview, ...updatedFields }
         };
-        })
-    );
+      }
 
-    setSelProject(prev => {
-        if (prev.id !== projectId) return prev;
-
-        if (slideId === "preview") {
-        return { ...prev, preview: { ...prev.preview, ...updatedFields } };
-        }
-
+      if (slideId === "archived") {
         return {
-        ...prev,
-        slides: prev.slides.map(slide =>
-            slide.slide_id === slideId ? { ...slide, ...updatedFields } : slide
+          ...project,
+          stats: { ...project.stats, ...updatedFields }
+        };
+      }
+
+      if (slideId === "projet") {
+        return {
+          ...project,
+          ...updatedFields
+        };
+      }
+
+      return {
+        ...project,
+        slides: project.slides.map(slide =>
+          slide.slide_id === slideId
+            ? { ...slide, ...updatedFields }
+            : slide
         )
-        };
-    });
-    if (slideId === "projet") {
-      setPendingSave(projectId);
-    }
-  };
+      };
+    })
+  );
+
+  if (slideId === "projet") {
+    setPendingSave(projectId);
+  }
+};
+
 
   const newSlide = (projectId) => () => {
     setProjectsList(prevProjects =>
@@ -331,7 +326,7 @@ useEffect(() => {
             video: '',
             background: '',
             text: '',
-            textLoc: '',
+            textLoc: 'right',
             images: []
         };
         return {

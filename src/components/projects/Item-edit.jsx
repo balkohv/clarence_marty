@@ -21,6 +21,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
 
 
     const slides_render = (slide, index) => {
+            console.log(slide);
         switch (slide.type) {
             case "image":
                 return (
@@ -33,7 +34,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
             case "carroussel":
                 return (
                     <Row key={index} xs="12" className='slide-item carrousel-slide' >
-                        <img src={api_url+"/uploads/"+(slide.background!=""?slide.background:null)}  alt={`Carrousel Background`} className="carrousel-background" />
+                        <img src={slide.background_preview?slide.background_preview : api_url + "/uploads/" + slide.background}  alt={`Carrousel Background`} className="carrousel-background" />
                         <div className="carrousel">
                             {slide.images.map((image, imgIndex) => (
                                 image.image && image.image.toLowerCase().endsWith('.mp4') ? (
