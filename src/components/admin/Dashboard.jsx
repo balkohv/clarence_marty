@@ -5,7 +5,7 @@ import { Col, Row } from 'react-bootstrap';
 import Item from '../projects/Item-edit.jsx';
 import SlideEdit from './Slide-edit.jsx';
 import { useState, useEffect } from 'react';
-import $ from 'jquery';
+import $, { get } from 'jquery';
 import {
   LineChart,
   Line,
@@ -77,7 +77,10 @@ useEffect(() => {
 
   React.useEffect(() => {
     // Initial mock data
+    get_data();
+  }, []);
 
+  const get_data=()=>{
     $.ajax({
       url: api_url+'site_api.php',
       method: 'GET',
@@ -85,7 +88,6 @@ useEffect(() => {
         action:"get_views"
       },
       success: (response) => {
-        console.log(response.data);
           setViews(response.data);
       },
       error: (err) => { console.log(err); }
@@ -104,7 +106,6 @@ useEffect(() => {
       error: (err) => { console.log(err); }
     });
 
-    if (projects.length > 0) return;
     $.ajax({
       url: api_url+'project_api.php',
       method: 'GET',
@@ -146,7 +147,7 @@ useEffect(() => {
         console.error('Error fetching projects:', err);
       }
     });
-  }, []);
+  };
 
   useEffect(() => {
     if (!pendingSave) return;
@@ -200,6 +201,11 @@ useEffect(() => {
       contentType: false,
       success: function(data) {
           console.log('Project saved successfully:', data);
+          setProjectsList([]);
+          setSelProject(null);
+          setEditor(null);
+
+          get_data();
           setSaveStatus("success");
           setTimeout(() => setSaveStatus("idle"), 1500);
       },
@@ -318,8 +324,9 @@ useEffect(() => {
         prevProjects.map(project => {
         if (project.id !== projectId) return project;
         const newSlide = {
-            slide_id: `${projectId}-${project.slides.length}`,
+            slide_id: `${projectId}_${project.slides.length}`,
             type: type_slide.IMAGE,
+            project_id: projectId,
             index_slide: project.slides.length+1,
             video: '',
             background: '',
@@ -482,7 +489,7 @@ useEffect(() => {
                                 <button onClick={() => document.getElementById("preview-video").click()}>
                                   Choisir une video
                                 </button>
-                                <input type="file" id='preview-video' onChange={e => {
+                                <input type="file" id='preview-video' accept=".mp4" onChange={e => {
                                   const file = e.target.files[0];
                                   if (file) {
                                       editSlide(project.id, "preview", { video: file, video_preview: URL.createObjectURL(file) });
@@ -496,7 +503,7 @@ useEffect(() => {
                                 <button onClick={() => document.getElementById("preview-background").click()}>
                                   Choisir un fond
                                 </button>
-                                <input type="file" id='preview-background' onChange={e => {
+                                <input type="file" id='preview-background' accept=".jpeg,.jpg,.png" onChange={e => {
                                   const file = e.target.files[0];
                                   if (file) {
                                       editSlide(project.id, "preview", { background: file,background_preview: URL.createObjectURL(file) });
@@ -585,7 +592,7 @@ useEffect(() => {
               <button onClick={() => document.getElementById("new-logo").click()}>
                 + Ajouter un logo
               </button>
-              <input type="file" id='new-logo' onChange={e => {
+              <input type="file" id='new-logo' accept=".jpeg,.jpg,.png" onChange={e => {
                 const file = e.target.files[0];
                 if (file) {
                   const formData = new FormData();

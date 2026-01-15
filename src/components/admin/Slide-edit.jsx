@@ -90,7 +90,7 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                 <button onClick={() => document.getElementById("image-background-slide-"+slide.slide_id).click()}>
                   Choisir un fond
                 </button>
-                <input id={"image-background-slide-"+slide.slide_id} type="file" onChange={(e) => {
+                <input id={"image-background-slide-"+slide.slide_id} type="file" accept=".jpeg,.jpg,.png" onChange={(e) => {
                   const file = e.target.files[0];
                   if (file) {
                     const previewURL = URL.createObjectURL(file);
@@ -114,7 +114,7 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                 <button onClick={() => document.getElementById("video-slide-"+slide.slide_id).click()}>
                   Choisir une vidéo
                 </button>
-                <input id={"video-slide-"+slide.slide_id}  type="file" onChange={e => {
+                <input id={"video-slide-"+slide.slide_id}  type="file" accept=".mp4" onChange={e => {
                   const file = e.target.files[0];
                   if (file) {
                       editSlide(projectId, slide.slide_id, { 
@@ -138,7 +138,7 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                   Choisir un fond
                 </button>
                 <img src={slide.background_preview?slide.background_preview : api_url + "/uploads/" + slide.background} alt="" />
-                <input id={"carroussel-background-slide-"+slide.slide_id}  type="file" onChange={e => {
+                <input id={"carroussel-background-slide-"+slide.slide_id}  type="file" accept=".jpeg,.jpg,.png" onChange={e => {
                   const file = e.target.files[0];
                   if (file) {
                       editSlide(projectId, slide.slide_id, { 
@@ -154,7 +154,7 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                     <button onClick={() => document.getElementById("carroussel-image-"+ image.image_id).click()}>
                       Choisir une image
                     </button>
-                    <input id={"carroussel-image-"+ image.image_id}  type="file" onChange={e => {
+                    <input id={"carroussel-image-"+ image.image_id}  type="file" accept=".jpeg,.jpg,.png,.mp4" onChange={e => {
                       const file = e.target.files[0];
                       if (file) {
                           editImage(projectId, slide.slide_id, image.image_id, { 
@@ -184,7 +184,7 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                   </button>
                   <div className="carroussel-image-container">
                     <img src={Add_image} alt="" />
-                    <input id={"carroussel-image-new"}  type="file" onChange={e => {
+                    <input id={"carroussel-image-new"}  type="file"  accept=".jpeg,.jpg,.png,.mp4" onChange={e => {
                       const file = e.target.files[0];
                       if (file) {
                           editImage(projectId, slide.slide_id, "new", { 

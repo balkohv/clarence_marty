@@ -23,7 +23,6 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
     const slides_render = (slide, index) => {
         switch (slide.type) {
             case "image":
-                console.log(project.slides);
                 return (
                     <Row key={index} xs="12" className={`slide-item image-slide ${slide.text_loc}`}>
                         <img src={slide.background_preview?slide.background_preview : api_url + "/uploads/" + slide.background}  alt={`Slide ${index + 1}`} />

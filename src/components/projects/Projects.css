@@ -202,13 +202,15 @@
 }
 
 
-.carrousel img {
+.carrousel img,
+.carrousel video{
+  width: auto;
   height: 80%;
   z-index: 1;
   object-fit: cover;
   object-position: center;
   overflow: hidden;
-  aspect-ratio: 3 / 7;
+  aspect-ratio: 4 / 7;
 }
 
 .carrousel{

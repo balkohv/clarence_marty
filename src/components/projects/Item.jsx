@@ -35,7 +35,13 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
                         <img src={api_url+"/uploads/"+(slide.background!=""?slide.background:null)} alt={`Carrousel Background`} className="carrousel-background" />
                         <div className="carrousel">
                             {slide.images.map((image, imgIndex) => (
-                                <img key={imgIndex} src={api_url+"/uploads/"+(image.image!=""?image.image:null)} alt={`Carrousel Image ${imgIndex + 1}`} />
+                                image.image && image.image.toLowerCase().endsWith('.mp4') ? (
+                                    <video key={image.image_id} autoPlay muted loop playsInline>
+                                        <source src={api_url+"/uploads/"+(image.image!=""?image.image:null)}type="video/mp4" />
+                                    </video>
+                                ) : (
+                                    <img key={imgIndex} src={api_url+"/uploads/"+(image.image!=""?image.image:null)} alt={`Carrousel Image ${imgIndex + 1}`} />
+                                )
                             ))}
                         </div>
                     </Row>
