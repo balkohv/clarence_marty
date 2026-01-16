@@ -434,10 +434,9 @@ const Dashboard = () => {
               {projects.map((project, index) => (
                 <React.Fragment key={project.id}>
                   <tr className="project" onClick={() => preview_project(project)}>
-                    <td>{index}</td>
                     <td>{project.preview.title}</td>
-                    <td>{project.type}</td>
-                    <td>{project.preview.subtitle}</td>
+                    <td className='categorie'>{project.type}</td>
+                    <td className='subtitle'>{project.preview.subtitle}</td>
                     <td>{project.stats.views} views</td>
                     <td><span className={project.stats.archived ? "archived" : "online"}>{project.stats.archived ? "Archivé" : "En ligne"}</span></td>
                   </tr>

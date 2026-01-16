@@ -41,6 +41,7 @@ tbody{
 tr{
     width: 100%;
     display: flex;
+    flex-direction: row;;
     background-color: var(--background);
     padding: 10px 20px;
     margin: 10px 0px;
@@ -58,6 +59,7 @@ td{
     gap: 0px;
     border: none;
     padding: 20px 10px !important;
+    overflow: hidden;
 
 }
 
@@ -685,8 +687,11 @@ input[type="file"]{
 
 
 
-
 @media (max-width: 768px) {
+  .image-slide p {
+    font-size: small;
+  }
+
   .graph{
     aspect-ratio: 6/2;
     height: auto;
@@ -703,6 +708,7 @@ input[type="file"]{
   td {
     font-size: small;
     width: auto;
+    flex:1;
   }
 
   td span{
@@ -747,5 +753,23 @@ input[type="file"]{
 
   .logo-item img{
     height: 50px;
+  }
+}
+
+@media(max-width: 500px){
+  td{
+    font-size: x-small;
+    padding:0  !important;
+  }
+
+  .subtitle{
+    display: none;
+  }
+
+}
+
+@media (max-width: 400px){
+  tr{
+    width: 74% !important;
   }
 }
