@@ -6,7 +6,6 @@ const api_url = import.meta.env.VITE_API_URL;
 
 const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}) => {
 
-    
     const projectRef = useRef(null);
 
 
@@ -21,7 +20,7 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
 
 
     const slides_render = (slide, index) => {
-            console.log(slide);
+        const isYoutubeLink = slide.video && slide.video.startsWith("https://www.youtube.com/");
         switch (slide.type) {
             case "image":
                 return (
@@ -52,9 +51,20 @@ const Item = ({project,project_index, isSlideActive, onClick,close_item,isAdmin}
             case "video":
                 return (
                     <Row key={index} xs="12" className='slide-item video-slide'>
-                        <video key={slide.video_preview || slide.video}  controls autoPlay muted loop playsInline>
-                            <source src={api_url+"/uploads/"+slide.video} type="video/mp4" />
-                        </video>
+                        {isYoutubeLink ? (
+                            <iframe 
+                                src={"https://www.youtube.com/embed/" + slide.video.split("v=")[1]}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                style={slide.video.startsWith("https://www.youtube.com/")?{display: 'block'}:{display: 'none'}}
+                            ></iframe>
+                        ) : (
+                            <video key={slide.video_preview || slide.video}  controls autoPlay muted loop playsInline>
+                                <source src={api_url+"/uploads/"+slide.video} type="video/mp4" />
+                            </video>
+                        )}
                     </Row>
                 );
                 

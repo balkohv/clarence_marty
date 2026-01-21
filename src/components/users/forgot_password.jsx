@@ -47,17 +47,19 @@ const ForgotPassword = () => {
     }
 
     return (
-        <div className="forgot-password-container">
-            <h2>Forgot Password</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input placeholder="mot de passe" type="password" required />
-                    <input placeholder="confirmer mot de passe" type="password" required />
-                </div>
-                {message && <div className="success-message">{message}</div>}
-                {error && <div className="error-message">{error}</div>}
-                <button type="submit" disabled={loading}>{loading ? 'Processing...' : 'Reset Password'}</button>
-            </form>
+        <div className='container'>
+            <div className="forgot-password-container">
+                <h2>Forgot Password</h2>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <input placeholder="mot de passe" type="password" required />
+                        <input placeholder="confirmer mot de passe" type="password" required />
+                    </div>
+                    {message && <div className="success-message">{message}</div>}
+                    {error && <div className="error-message">{error}</div>}
+                    <button type="submit" disabled={loading}>{loading ? 'Processing...' : 'Reset Password'}</button>
+                </form>
+            </div>
         </div>
     );
 }

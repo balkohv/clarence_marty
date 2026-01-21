@@ -112,6 +112,9 @@ td:last-child {
 
 .logo-wall-section img{
   height:300px;
+  max-height: 30vh;
+  max-width: 15%;
+  object-fit: contain;
 }
 
 .logo-wall-section tr{
@@ -138,6 +141,7 @@ td:last-child {
   justify-content: center;
   padding: 0px 5vw;
   flex:1;
+  gap: 15px;
 }
 
 .contact-section{
@@ -316,5 +320,9 @@ tr:hover td h2{
     width: 100%; 
     aspect-ratio: 6 / 3;
     margin-bottom: 10vh;
+  }
+
+  tr{
+    flex-direction: column !important;
   }
 }

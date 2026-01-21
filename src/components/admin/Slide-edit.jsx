@@ -2,6 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import $ from 'jquery';
 import Add_image from "../../assets/add_image.png";
+import React from "react";
 
 const type_slide = {
   IMAGE: "image",
@@ -26,6 +27,8 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
     transition
   };
 
+  const [isYoutubeLink, setIsYoutubeLink] = React.useState(slide.video.startsWith("https://www.youtube.com") || slide.video.startsWith("https://youtu.be"));
+
   
   const deleteImageApi = (imageId) => {
     return $.ajax({
@@ -38,7 +41,7 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
 
   return (
     <div ref={setNodeRef} style={style} className="slides-edit">
-      <div className="slide-editor">
+      <div className="slide-editor" style={slide.type === type_slide.VIDEO? {flexDirection: "column"} : {}}>
         <div className="logo">
           <div className="drag-handle" {...attributes} {...listeners} aria-label="drag handle" title="Déplacer">
             ☰
@@ -111,7 +114,20 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
           <>
             <div className="media-container">
               <div className="media">
-                <button onClick={() => document.getElementById("video-slide-"+slide.slide_id).click()}>
+                <label className="switch youtube">
+                  <input 
+                    type="checkbox" 
+                    id="is-youtube-link" 
+                    checked={isYoutubeLink} 
+                    onChange={e => {
+                      setIsYoutubeLink(e.target.checked);
+                      editSlide(projectId, slide.slide_id, { video: ""  });
+                    }}
+                  />
+                  <span className="slider"></span>
+                </label>
+                <input type="text"  className="youtube-link-input" onChange={e=> editSlide(projectId, slide.slide_id, { video: e.target.value } )} placeholder="Lien Youtube" style={{ display: isYoutubeLink ? 'block' : 'none' }} />
+                <button onClick={() => document.getElementById("video-slide-"+slide.slide_id).click()} style={{ display: isYoutubeLink ? 'none' : 'block' }}>
                   Choisir une vidéo
                 </button>
                 <input id={"video-slide-"+slide.slide_id}  type="file" accept=".mp4" onChange={e => {
@@ -123,9 +139,20 @@ const SlideEdit = ({ slide, projectId, editSlide, editImage, deleteSlide }) => {
                         video_preview: URL.createObjectURL(file) } );
                   }
                 }} />
+                {isYoutubeLink ? (
+                  <iframe 
+                    src={"https://www.youtube.com/embed/" + slide.video.split("v=")[1]}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    style={slide.video.startsWith("https://www.youtube.com/")?{display: 'block'}:{display: 'none'}}
+                  ></iframe>
+                ) : (
                 <video key={slide.video_preview || slide.video} autoPlay muted loop playsInline controls preload="none">
                   <source src={slide.video_preview?slide.video_preview : api_url + "/uploads/" + slide.video} type="video/mp4" />
                 </video>
+                )}
               </div>
             </div>
           </>

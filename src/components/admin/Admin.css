@@ -53,6 +53,10 @@ tr{
     font-size: large;
 }
 
+.project{
+  flex-direction: row !important;
+}
+
 td{
     width: 25%;
     display: flex;
@@ -371,9 +375,22 @@ input[type="file"]{
 
 .media{
   display:flex;
-  flex-direction:row;
+  flex-direction:column;
   gap: 20px;
   padding:20px;
+}
+
+.youtube input:checked + .slider {
+  background-color: #e90909 !important;
+}
+
+.youtube-link-input{
+  width: 90% !important;
+  max-width: 400px;
+}
+
+iframe{
+  width: 100%;
 }
 
 .media button{
@@ -667,15 +684,18 @@ input[type="file"]{
   margin-top: 20px;
   justify-content: center;
   align-items: center;
+  width: min-content;
 }
 
 .logo-item img{
-  height: 150px;
+  width: 100%;
   border-radius: 10px;
 }
 
 .logo-item button{
  max-width: 150px;
+  bottom: 0px;
+  position: relative;
 } 
 
 .logo-wall-edit{
@@ -751,8 +771,8 @@ input[type="file"]{
     width: auto;
   }
 
-  .logo-item img{
-    height: 50px;
+  .logo-item img{ 
+    max-width: 100%;
   }
 }
 

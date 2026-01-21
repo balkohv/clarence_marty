@@ -7,7 +7,7 @@ const Footer = () => {
     return (
         <div id="footer-container">
             <div id='footer-contact-text'>
-                <p><img src={mail} alt="mail logo" /><a href="mailto:martyc1812@gmail.com" className="contact-button">martyc1812@gmail.com</a></p>
+                <p><img src={mail} alt="mail logo" /><a href="mailto:contact@clarencemarty.com" className="contact-button">contact@clarencemarty.com</a></p>
                 <p><img src={telephone} alt="mail logo" />07 80 45 51 92</p>
                 <p><a href="https://www.instagram.com/clarence_marty/" target="_blank"><img src={instagram} alt="mail logo" />clarence_marty</a></p>
             </div>

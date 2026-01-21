@@ -149,7 +149,7 @@ const AboutMe = ({isServices}) => {
 
                 <p>Une envie, une idée</p>
                 <p>Contactez moi pour en discuter et donner vie a votre projet !</p>
-                <p><Mail/><a href="mailto:martyc1812@gmail.com" className="contact-button">martyc1812@gmail.com</a></p>
+                <p><Mail/><a href="mailto:contact@clarencemarty.com" className="contact-button">contact@clarencemarty.com</a></p>
                 <p><Telephone/>07 80 45 51 92</p>
                 <p><a href="https://www.instagram.com/clarence_marty/" target="_blank"><Instagram/>clarence_marty</a></p>
             </Col>

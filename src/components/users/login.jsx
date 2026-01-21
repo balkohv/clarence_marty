@@ -71,19 +71,21 @@ const Login = () => {
     }
 
     return (
-        <div className="login-container">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input placeholder="Login" type="text" value={login} onChange={(e) => setLogin(e.target.value)} required />
-                </div>
-                <div>
-                    <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <a onClick={handleForgotPassword}>mot de passe oublié</a>
-                {error && <div className="error-message">{error}</div>}
-                <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
-            </form>
+        <div className='container'>
+            <div className="login-container">
+                <h2>Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <input placeholder="Login" type="text" value={login} onChange={(e) => setLogin(e.target.value)} required />
+                    </div>
+                    <div>
+                        <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </div>
+                    <a onClick={handleForgotPassword}>mot de passe oublié</a>
+                    {error && <div className="error-message">{error}</div>}
+                    <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
+                </form>
+            </div>
         </div>
     );
 };

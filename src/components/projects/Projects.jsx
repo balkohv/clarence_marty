@@ -65,6 +65,7 @@ const api_url = import.meta.env.VITE_API_URL;
   return (
     <>
 
+    <div id='categories-container'>
       <div id="categories">
         {categories.map((category, tab) => (
           <div
@@ -76,6 +77,8 @@ const api_url = import.meta.env.VITE_API_URL;
           </div>
         ))}
       </div>
+    </div>
+      
 
       <div className="tabs-wrapper">
         {categories.map((category, index) => {
